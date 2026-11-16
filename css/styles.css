@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Page CSS on top of the tasteskill kit (assets/system.css + layout.css).
+   Only what the kit has no part for: the hero's name treatment, the two
+   scroll scenes the brief asks for, and the ember layer.
+   Palette: Onyx #01010D ground, Electric Indigo #6331FB surface, Tropical
+   Mint #88F9C0 action (tokens in index.html, from start.mjs brand).
+   ========================================================================== */
+
+/* Cards on the onyx ground: a step lighter than the page, tinted indigo */
+:root { --card: #0d0b2a; }
+
+/* ---------- Hero: condensed capitals plus one italic word ---------- */
+.hero .name { display: grid; gap: 0; line-height: 0.88; letter-spacing: 0; }
+.hero .name__a {
+  font-family: var(--font-display); font-weight: 600; font-stretch: 62%;
+  text-transform: uppercase; font-size: clamp(56px, 7.2vw, 112px); letter-spacing: -0.01em;
+}
+.hero .name__b {
+  font-family: "Fraunces", Georgia, serif; font-style: italic; font-weight: 400;
+  font-size: clamp(50px, 6.6vw, 104px); letter-spacing: -0.02em; margin-top: -0.04em;
+}
+.hero .hero__lead { max-width: 34ch; }
+
+/* ---------- Work cards: the link sits at the card's foot ---------- */
+.work .card { min-height: 100%; }
+.work .card__foot { margin-top: auto; padding-top: var(--s-4); }
+
+/* ---------- Credits ---------- */
+.credits__head { margin: 0 0 var(--s-3); color: var(--accent); }
+.credits__head + .rows { margin-bottom: var(--s-7); }
+.rows__value { color: var(--muted); text-align: right; }
+
+/* ---------- Obsession: the scroll reveal (motion only) ----------
+   Static: the still above the title, all visible. Motion: the stage pins
+   inside its own two-screen section; js/main.js writes --p from 0 to 1. */
+.scene-obs { background: #050306; }
+.obs__slit { border-radius: var(--r-lg); overflow: hidden; }
+.obs__slit img { width: 100%; height: auto; display: block; }
+.obs__text { text-align: left; margin-top: var(--s-7); }
+.obs__kicker { color: #f0a5b0; }
+.obs__title {
+  font-family: "Fraunces", Georgia, serif; font-style: italic; font-weight: 400;
+  font-size: clamp(56px, 6.4vw, 96px); line-height: 0.9; letter-spacing: -0.01em;
+  color: #fbf0f2; text-shadow: 0 0 48px rgba(179, 18, 42, 0.55);
+}
+.obs__role { margin-top: var(--s-5); font-size: var(--t-lead); }
+
+.motion .scene-obs { padding: 0; }
+.motion .scene-obs > .wrap { position: sticky; top: 0; height: 100svh; }
+.motion .obs__stage {
+  --p: 0;
+  --a1: clamp(0, var(--p) / 0.4, 1);
+  --a2: clamp(0, (var(--p) - 0.35) / 0.3, 1);
+  --a3: clamp(0, (var(--p) - 0.62) / 0.22, 1);
+}
+.motion .obs__slit {
+  position: absolute; left: 0; right: 0; top: calc(var(--nav) + var(--s-6)); bottom: var(--s-8);
+  clip-path: inset(calc(36% - var(--a1) * 36%) 0);
+}
+.motion .obs__slit img { height: 100%; object-fit: cover; }
+.motion .obs__slit::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(65% 60% at 50% 55%, rgba(5, 3, 6, 0.82), rgba(5, 3, 6, 0.3));
+  opacity: calc(var(--a2) * 0.95);
+}
+.motion .obs__text { position: absolute; left: var(--s-7); right: var(--s-7); bottom: calc(var(--s-8) + var(--s-7)); margin: 0; }
+.motion .obs__kicker { opacity: var(--a2); }
+.motion .obs__title { opacity: var(--a2); letter-spacing: calc(-0.01em + (1 - var(--a2)) * 0.4em); }
+.motion .obs__role { opacity: var(--a3); transform: translateY(calc((1 - var(--a3)) * 16px)); }
+
+/* ---------- House of the Dragon: embers and scales behind a plain split ---------- */
+.scene-hotd::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+  background:
+    radial-gradient(circle at 50% 0, transparent 56%, rgba(255,140,60,.3) 59%, rgba(255,140,60,.05) 64%, transparent 66%) 0 0 / 34px 24px,
+    radial-gradient(circle at 50% 0, transparent 56%, rgba(255,140,60,.3) 59%, rgba(255,140,60,.05) 64%, transparent 66%) 17px 12px / 34px 24px;
+  -webkit-mask-image: radial-gradient(130% 80% at 50% 100%, #000 30%, transparent 85%); mask-image: radial-gradient(130% 80% at 50% 100%, #000 30%, transparent 85%); }
+.scene-hotd { position: relative; isolation: isolate; overflow: hidden;
+  background: radial-gradient(90% 70% at 50% 115%, rgba(255, 106, 32, 0.26), transparent 65%), #0a0605; }
+.hotd__embers { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.hotd__kicker { color: #ffc46b; }
+.hotd__title { font-size: var(--t-h1); line-height: 1; letter-spacing: var(--display-tracking-xl); margin-bottom: var(--s-5);
+  background: linear-gradient(to top, #ff7a2f 0%, #ffc46b 35%, #fff3e0 60%, var(--ink) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hotd__frame { aspect-ratio: 3 / 2; }
+
+/* ---------- Travel: the beat-cut sequence ----------
+   Static (reduced motion, no script): one screen, three photographs in a row
+   under the tagline. Motion: three screens; the stage pins and the beat (0-3)
+   follows the scroll, each cut a quick wipe with a push-in. No flashing. */
+.scene-tour { background: var(--bg); }
+.tour__frames { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+.tour__photo { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--r-lg); }
+.tour__photo[data-i="0"] { object-position: 10% 30%; }
+.tour__photo[data-i="1"] { object-position: 45% 62%; }
+.tour__photo[data-i="2"] { object-position: 60% 48%; }
+.tour__word, .tour__beats { display: none; }
+.tour__tagline { margin-top: var(--s-7); font-size: var(--t-h2); font-stretch: 118%; text-transform: uppercase; letter-spacing: -0.02em; font-weight: 600; }
+.tour__tagline .tw[data-t="3"] { color: var(--accent); }
+html:not(.motion) .scene-tour { --h: 1; }
+html:not(.motion) .scene-tour .tour__stage { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+html:not(.motion) .scene-tour .tour__wrap { margin-bottom: var(--s-7); }
+@media (max-width: 639px) { .tour__frames { grid-template-columns: 1fr; } .tour__photo { aspect-ratio: 16 / 9; } }
+
+.motion .scene-tour { --h: 2; padding: 0; overflow-x: clip; }
+.motion .scene-tour > .tour__stage { position: sticky; top: 0; height: 100svh; }
+.motion .tour__frames { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; margin: 0; display: block; overflow: hidden; }
+.motion .tour__photo { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0;
+  clip-path: inset(0 0 0 100%); transform: scale(1.06); transition: clip-path .55s cubic-bezier(.8,0,.15,1), transform 1.2s cubic-bezier(.2,.7,.1,1); filter: brightness(.62); }
+.motion .tour__photo[data-i="1"] { clip-path: inset(100% 0 0 0); }
+.motion .tour__photo[data-i="2"] { clip-path: inset(0 100% 0 0); }
+.motion .tour__stage[data-beat="0"] .tour__photo[data-i="0"],
+.motion .tour__stage[data-beat="1"] .tour__photo[data-i="1"],
+.motion .tour__stage[data-beat="2"] .tour__photo[data-i="2"] { clip-path: inset(0); transform: none; z-index: 1; }
+.motion .tour__stage[data-beat="3"] .tour__photo { transform: none; filter: brightness(.45); }
+.motion .tour__stage[data-beat="3"] .tour__photo[data-i="0"] { clip-path: inset(0 calc(66.667% + 4px) 0 0); }
+.motion .tour__stage[data-beat="3"] .tour__photo[data-i="1"] { clip-path: inset(0 calc(33.333% + 2px) 0 calc(33.333% + 2px)); }
+.motion .tour__stage[data-beat="3"] .tour__photo[data-i="2"] { clip-path: inset(0 0 0 calc(66.667% + 4px)); }
+@media (max-aspect-ratio: 1/1) { .motion .tour__photo[data-i="1"] { object-position: 38% 62%; } }
+
+.motion .tour__wrap { position: absolute; inset: 0; z-index: 2; }
+.motion .tour__word { display: block; position: absolute; left: 0; right: 0; top: 46%; transform: translateY(-50%); pointer-events: none;
+  font: 600 clamp(56px, 14vw, 220px)/0.85 var(--font-display); text-transform: uppercase; letter-spacing: -0.03em; }
+.motion .tour__word span { position: absolute; left: 0; top: 0; white-space: nowrap; opacity: 0; font-stretch: 62%;
+  transform: translateX(-3%); transition: opacity .2s, font-stretch .5s cubic-bezier(.2,.7,.1,1), transform .5s cubic-bezier(.2,.7,.1,1);
+  text-shadow: -3px 0 0 rgba(99,49,251,.75), 3px 0 0 rgba(136,249,192,.55), 0 4px 30px rgba(0,0,0,.5); }
+.motion .tour__word [data-w="1"] { font-size: .6em; top: .25em; }
+.motion .tour__stage[data-beat="0"] [data-w="0"],
+.motion .tour__stage[data-beat="1"] [data-w="1"],
+.motion .tour__stage[data-beat="2"] [data-w="2"] { opacity: 1; font-stretch: 125%; transform: none; }
+.motion .tour__tagline { position: absolute; left: 0; right: 0; bottom: calc(var(--s-8) + var(--s-4)); margin: 0;
+  font-size: clamp(22px, 3vw, 40px); text-shadow: 0 2px 18px rgba(0,0,0,.55); transition: font-size .6s cubic-bezier(.8,0,.15,1); }
+.motion .tour__tagline .tw { color: var(--muted); opacity: .75; transition: color .25s, opacity .25s; }
+.motion .tour__stage[data-beat="0"] .tw[data-t="0"],
+.motion .tour__stage[data-beat="1"] .tw:is([data-t="0"],[data-t="1"]),
+.motion .tour__stage[data-beat="2"] .tw:is([data-t="0"],[data-t="1"],[data-t="2"]),
+.motion .tour__stage[data-beat="3"] .tw { color: var(--ink); opacity: 1; }
+.motion .tour__stage[data-beat="3"] .tw[data-t="3"] { color: var(--accent); }
+.motion .tour__stage[data-beat="3"] .tour__tagline { font-size: clamp(40px, 7.5vw, 120px); }
+.motion .tour__beats { display: flex; gap: var(--s-2); position: absolute; right: 0; bottom: var(--s-8); }
+.tour__beats b { width: 28px; height: 3px; background: rgba(243,242,250,.25); transition: background-color .2s; }
+.tour__stage[data-beat="0"] .tour__beats b:nth-child(-n+1),
+.tour__stage[data-beat="1"] .tour__beats b:nth-child(-n+2),
+.tour__stage[data-beat="2"] .tour__beats b:nth-child(-n+3),
+.tour__stage[data-beat="3"] .tour__beats b { background: var(--accent); }
+.tour__stage.hit .tour__frames { animation: punch .32s cubic-bezier(.2,.7,.1,1) both; }
+@keyframes punch { from { transform: scale(1.035); } to { transform: none; } }
+
+/* Placeholders the client still has to fill: easy to find, clearly marked */
+.ph { color: var(--accent); font-style: normal; }
+
+/* Case study: interview cards hold their content height */
+#research .group .grid { align-items: start; }
+/* Work, screen two: every role */
+.roles__title { font-size: var(--t-h3); margin-bottom: var(--s-6); }
+.credits__head { font-size: var(--t-label); }
+/* House of the Dragon: the picture fills the screen's content height */
+@media (min-width: 1024px) {
+  .hotd__grid { align-items: stretch; height: 100%; }
+  .scene-hotd > .wrap { height: 100%; }
+  .hotd__frame { aspect-ratio: auto; height: 100%; }
+  .hotd__copy { align-self: start; }
+  .hotd__frame img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--r-lg); }
+}
+
+/* Case study band: text in pure white on Electric Indigo */
+#research { --ink: #ffffff; --muted: #ffffff; }
+.roles__title { font-family: var(--font-text); font-weight: 500; font-size: var(--t-card); }

@@ -1,0 +1,25 @@
+# Build output (produced by `npm run build` and in CI)
+_site/
+node_modules/
+
+# Local preview screenshots — not part of the site
+preview/
+
+# OS / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Never commit secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Design skill and its working files (not part of the site)
+.agents/
+.claude/skills/
+skills-lock.json
+.taste-skill/
+shots/
