@@ -33,8 +33,8 @@ Then open http://localhost:5174/my-repo/.
 
 ```
 index.html            All content and copy (semantic HTML, works without JS)
-css/styles.css        Page styles on top of the kit (palette tokens are in index.html)
-js/main.js            Motion toggle, nav, image loading states, scroll scenes, embers
+css/styles.css        All styles; colour and size variables at the top
+js/main.js            Topbar menu and the travel reveal (the page works without it)
 assets/images/        Your photos go here — see assets/images/README.md
 assets/favicon.svg
 server.mjs            Zero-dependency local preview server
@@ -42,13 +42,12 @@ scripts/build.mjs     Builds _site/ for GitHub Pages and checks every local link
 .github/workflows/    GitHub Actions workflow that deploys to Pages
 ```
 
-## Design system
+## Design
 
-The page is built on the tasteskill kit, copied unchanged into `assets/`
-(`system.css`, `system.js`, `motion/`, `layout/`, `ui/`, `moments/`). Don't edit
-those files; page-specific styles live in `css/styles.css` and `js/main.js`.
-Palette tokens (Onyx #01010D, Electric Indigo #6331FB, Tropical Mint #88F9C0)
-sit in the `:root` block in `index.html`.
+Clean and minimal: a light page (#FAFAFC) with Onyx #01010D text, Electric
+Indigo #6331FB as the accent (links, labels, numbers) and Tropical Mint
+#88F9C0 for the main button and small markers. Type is Geist and Geist Mono.
+All colours and sizes are variables at the top of `css/styles.css`.
 
 ## Filling in placeholders
 

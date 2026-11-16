@@ -1,304 +1,216 @@
 <!doctype html>
-<!-- type: service (a person who is hired: game testing, community work, production assistance)
-     deal: hero photo (data-calm left), nav plain, close close--type, footer footer-columns, buttons solid, mark ring
-     palette: the client's own colours through start.mjs brand: Onyx Black #01010D ground, Electric Indigo
-     #6331FB surface and brand band, Tropical Mint #88F9C0 action. Type: Archivo (dealt list for service),
-     with Fraunces italic for the one accent word in the h1, as in the client's reference.
-     moments: picture-develops (dealt) on the House of the Dragon still; plus the Obsession reveal and the
-     travel beat-cut, the two scroll scenes the brief requires. -->
-<html lang="en" data-type="service" data-radius="soft" data-buttons="solid" data-motion>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Olivier B. Janssen: game tester, community manager and production assistant</title>
-<meta name="description" content="Portfolio of Olivier B. Janssen, with QA work for Keywords Studios and Discord, an economics case study, and credits on Obsession (2025) and House of the Dragon.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Olivier B. Janssen: game tester, community manager and production assistant">
-<meta property="og:description" content="QA, community and production work, an economics case study, and film and TV credits.">
-<meta property="og:image" content="assets/images/hero-duotone.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#01010D">
-<!-- <link rel="canonical" href="https://[your domain]/"> -->
-<meta name="site-kind" content="other">
-<meta name="page-type" content="service">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..600&family=Fraunces:ital,opsz,wght@1,9..144,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/system.css">
-<link rel="stylesheet" href="assets/ui/cards.css">
-<link rel="stylesheet" href="assets/motion/motion.css">
-<link rel="stylesheet" href="assets/layout/layout.css">
-<link rel="stylesheet" href="assets/icons/icon.css">
-<style>
-:root {
-  --p-bg: #01010d; --p-surface: #6331fb; --p-ink: #f3f2fa; --p-muted: #dedde7;
-  --p-accent: #88f9c0; --p-accent-ink: #01010d; --p-action: #88f9c0; --p-action-ink: #01010d;
-  --p-inv-bg: #f3f2fa; --p-inv-surface: #dedee7; --p-inv-ink: #01010d; --p-inv-muted: #494c5d;
-  --p-inv-accent: #01010d; --p-inv-accent-ink: #f3f2fa; --p-inv-action: #01010d; --p-inv-action-ink: #f3f2fa;
-  --font-display: "Archivo", system-ui, sans-serif;
-  --font-text: "Archivo", system-ui, sans-serif;
-  --display-weight: 400;
-  --display-tracking: -0.025em;
-  --display-tracking-xl: -0.035em;
-  --display-stretch: 110%;
-  --ly-scale: 0.9;
-}
-</style>
-<link rel="stylesheet" href="css/styles.css">
-<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
-<link rel="modulepreload" href="assets/moments/moments.js">
-<link rel="modulepreload" href="assets/moments/lib.js">
-<link rel="modulepreload" href="assets/moments/picture-develops/moment.js">
-<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
-<script>
-  // The two scroll scenes run only with motion allowed; otherwise each shows its finished layout.
-  (function () { var d = document.documentElement; if (!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) d.classList.add('motion'); })();
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Olivier B. Janssen — Games, tech, film &amp; TV</title>
+  <meta name="description" content="Olivier B. Janssen: game tester, Dutch AI trainer and production assistant on Obsession (2025) and House of the Dragon.">
+  <meta name="theme-color" content="#01010D">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Olivier B. Janssen — I make things come to life">
+  <meta property="og:description" content="Game testing, AI training, and production assistant credits in film and TV.">
+  <meta property="og:image" content="assets/images/hero-dark.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@1,9..144,400&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="module" src="js/main.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="nav">
-  <div class="wrap nav__bar">
-    <a class="skip-link" href="#top">Skip to content</a>
-    <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>Olivier Janssen</a>
-    <nav class="nav__links" aria-label="Main">
-      <div class="nav__item"><a class="nav__link" href="#research">Research</a></div>
-      <div class="nav__item"><a class="nav__link" href="#work">Work</a></div>
-      <div class="nav__item"><a class="nav__link" href="#obsession">Film</a></div>
-      <div class="nav__item"><a class="nav__link" href="#travel">Travel</a></div>
-      <div class="nav__item"><a class="nav__link" href="#contact">Contact</a></div>
-    </nav>
-    <div class="nav__actions">
-      <a class="btn btn--primary" href="mailto:contactolivierjanssen@gmail.com">Email Olivier</a>
-    </div>
-    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
-      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <!-- Floating pill nav -->
+  <header class="pill-nav">
+    <a class="pill-nav__name" href="#top"><span class="pill-nav__mark" aria-hidden="true"></span>Olivier</a>
+    <button class="pill-nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span class="pill-nav__bars" aria-hidden="true"></span>
     </button>
-  </div>
-</header>
+    <nav class="pill-nav__menu" id="menu" aria-label="Main">
+      <a href="#experience">Experience</a>
+      <a href="#film">Film &amp; TV</a>
+      <a href="#case-study">Case study</a>
+      <a href="#travel">Travel</a>
+      <a href="https://www.linkedin.com/in/olivierbjanssen/" target="_blank" rel="noopener">LinkedIn ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      <a href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">IMDb ↗<span class="sr-only"> (opens in a new tab)</span></a>
+    </nav>
+  </header>
 
-<main id="top">
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-name">
+      <img class="hero__bg" src="assets/images/hero-dark.jpg" alt="" width="1600" height="1209" fetchpriority="high">
+      <div class="hero__inner">
+        <div class="hero__left">
+          <p class="pill"><span class="pill__dot" aria-hidden="true"></span>Games · Tech · Film &amp; TV</p>
+          <p class="hero__lead">I make things<br>come to life.</p>
+        </div>
+        <div class="hero__right">
+          <a class="cta" href="#experience"><span class="cta__icon" aria-hidden="true">→</span>See my work</a>
+          <div class="socials">
+            <a class="social" href="https://www.linkedin.com/in/olivierbjanssen/" target="_blank" rel="noopener" aria-label="LinkedIn (opens in a new tab)">in</a>
+            <a class="social" href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener" aria-label="IMDb (opens in a new tab)">IMDb</a>
+          </div>
+        </div>
+        <h1 class="hero__name" id="hero-name" aria-label="Olivier B. Janssen"><span aria-hidden="true"><span>O</span><span>l</span><span>i</span><span>v</span><span>i</span><span>e</span><span>r</span></span></h1>
+      </div>
+    </section>
 
-  <!-- HERO (photo): the client's portrait, graded into the palette, words on its calm left side -->
-  <section class="hero hero--photo" data-enter data-calm="left" data-box="none" data-tone="dark" aria-labelledby="hero-h">
-    <img class="hero__bg" src="assets/images/hero-duotone.jpg" alt="Olivier B. Janssen outside an office building, in indigo light" width="2400" height="1350" style="--ly-pos: 72% 50%; --ly-pos-phone: 88% 50%" fetchpriority="high" data-source="client" data-subject="Olivier B. Janssen">
-    <div class="wrap"><div class="hero-text">
-      <div class="hero__text">
-        <h1 id="hero-h" class="name"><span class="name__a">Olivier B.</span> <span class="name__b">Janssen</span></h1>
-        <p class="hero__lead">Game tester, community manager and Dutch AI trainer, with production assistant credits on Obsession (2025) and House of the Dragon.</p>
-        <div class="btn-row">
-          <a class="btn btn--primary" href="mailto:contactolivierjanssen@gmail.com">Email Olivier<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M6 3l3 3-3 3"/></svg></a>
-          <a class="btn btn--secondary" href="#research">Read the case study</a>
+    <!-- Experience: four highlighted roles -->
+    <section class="section" id="experience" aria-labelledby="exp-title">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title" id="exp-title">Experience</h2>
+          <p class="section__aside">Testing games, training AI and keeping communities running.</p>
+        </div>
+        <div class="windows">
+          <article class="window role">
+            <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>spacexai</span></div>
+            <div class="window__body role__body">
+              <img class="role__watermark" src="assets/logos/spacex.svg" alt="" aria-hidden="true">
+              <div class="role__top">
+                <span class="role__logo"><img src="assets/logos/spacex.svg" alt="SpaceXAI logo" width="56" height="56"></span>
+                <span class="role__tag">AI training</span>
+              </div>
+              <div class="role__text">
+                <span class="role__num" aria-hidden="true">01</span>
+                <h3 class="role__org">SpaceXAI</h3>
+                <p class="role__title">AI Trainer — Dutch</p>
+              </div>
+            </div>
+          </article>
+          <article class="window role">
+            <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>keywords-studios</span></div>
+            <div class="window__body role__body">
+              <img class="role__watermark" src="assets/logos/keywords-mark.png" alt="" aria-hidden="true">
+              <div class="role__top">
+                <span class="role__logo"><img src="assets/logos/keywords-mark.png" alt="Keywords Studios logo" width="56" height="56"></span>
+                <span class="role__tag">Game testing</span>
+              </div>
+              <div class="role__text">
+                <span class="role__num" aria-hidden="true">02</span>
+                <h3 class="role__org">Keywords Studios</h3>
+                <p class="role__title">Game Tester</p>
+              </div>
+            </div>
+          </article>
+          <article class="window role">
+            <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>medal.tv</span></div>
+            <div class="window__body role__body">
+              <img class="role__watermark" src="assets/logos/medal-mark.png" alt="" aria-hidden="true">
+              <div class="role__top">
+                <span class="role__logo"><img src="assets/logos/medal-mark.png" alt="Medal.tv logo" width="56" height="56"></span>
+                <span class="role__tag">Community QA</span>
+              </div>
+              <div class="role__text">
+                <span class="role__num" aria-hidden="true">03</span>
+                <h3 class="role__org">Medal.tv</h3>
+                <p class="role__title">Community Quality Assurance Tester</p>
+              </div>
+            </div>
+          </article>
+          <article class="window role">
+            <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>discord</span></div>
+            <div class="window__body role__body">
+              <img class="role__watermark" src="assets/logos/discord.svg" alt="" aria-hidden="true">
+              <div class="role__top">
+                <span class="role__logo"><img src="assets/logos/discord.svg" alt="Discord logo" width="56" height="56"></span>
+                <span class="role__tag">Game testing</span>
+              </div>
+              <div class="role__text">
+                <span class="role__num" aria-hidden="true">04</span>
+                <h3 class="role__org">Discord</h3>
+                <p class="role__title">Game Tester</p>
+              <p class="role__note">Received a recommendation from a former Community and Influencer Marketing Manager.</p>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
-      <dl class="hero__facts">
-        <div><dt>Research</dt><dd>Interviews at Meta, Google and HBS</dd></div>
-        <div><dt>Testing</dt><dd>Keywords Studios, Discord, Medal.tv</dd></div>
-        <div><dt>Game jam</dt><dd>48 participants, on two occasions</dd></div>
-        <div><dt>Film and TV</dt><dd>Two production assistant credits</dd></div>
-      </dl>
-    </div></div>
-  </section>
+    </section>
 
-  <!-- CASE STUDY: the brand band (indigo), two screens as two groups -->
-  <section class="section g2 ground-surface" id="research" aria-labelledby="research-h">
-    <div class="wrap">
-      <div class="group">
-        <div class="section-head">
-          <h2 id="research-h">Can free products win a market? <span class="muted">An economics case study.</span></h2>
-          <p>When a tech company gives its product away, does that win it market share? I put the question to three people from industry and academia. <span class="ph" data-placeholder>[School and year]</span></p>
-        </div>
-        <div class="grid">
-          <article class="card span-4"><p class="t-label">Interview, Meta</p><h3>Relations Manager</h3></article>
-          <article class="card span-4"><p class="t-label">Interview, Google</p><h3>Principal Growth Manager</h3></article>
-          <article class="card span-4"><p class="t-label">Interview, Harvard Business School</p><h3>Professor Shane Greenstein</h3></article>
-        </div>
+    <!-- Film & TV: wide panels -->
+    <section class="section" id="film" aria-labelledby="film-title">
+      <div class="container">
+        <p class="kicker">Film &amp; TV</p>
+        <h2 class="section__title" id="film-title">Production credits</h2>
       </div>
-      <div class="grid steps">
-        <article class="card span-6">
-          <p class="t-label">Research question</p>
-          <h3>To what extent is offering free products an effective strategy for tech companies to gain market share?</h3>
-          <p class="t-small" lang="nl">“In hoeverre is het aanbieden van gratis producten een effectieve strategie voor Tech bedrijven om marktaandeel te winnen?”</p>
+      <div class="container container--wide film">
+        <article class="film__panel film__panel--obsession">
+          <img src="assets/images/obsession-still.jpg" alt="Still from Obsession (2025): a woman with long dark hair seated in a dimly lit booth" width="738" height="414" loading="lazy" decoding="async">
+          <div class="film__text">
+            <p class="film__kicker">Feature film, horror, 2025</p>
+            <h3 class="film__title">Obsession</h3>
+            <p class="film__role">Production Assistant</p>
+          </div>
         </article>
-        <article class="card span-6">
-          <p class="t-label">Method</p>
-          <h3>Three expert interviews</h3>
-          <p class="ph" data-placeholder>[How the interviews ran, any other sources, and how you compared the answers.]</p>
-        </article>
-        <article class="card span-6">
-          <p class="t-label">Findings</p>
-          <h3>What the interviews showed</h3>
-          <p class="ph" data-placeholder>[What you found, in two or three sentences.]</p>
-        </article>
-        <article class="card span-6">
-          <p class="t-label">Outcome</p>
-          <h3>What came of it</h3>
-          <p class="ph" data-placeholder>[Grade, presentation, or anything that came out of it.]</p>
-          <p><a class="link" href="#research" data-placeholder-link>Read the full case study <span class="ph" data-placeholder>[link]</span></a></p>
+        <article class="film__panel film__panel--hotd">
+          <img src="assets/images/hotd-approved.jpg" alt="Still from House of the Dragon: a figure in a red gown and gold-trimmed cloak stands before a throne of swords" width="1280" height="852" loading="lazy" decoding="async">
+          <div class="film__text">
+            <p class="film__kicker">Television series</p>
+            <h3 class="film__title">House of the Dragon</h3>
+            <p class="film__role">Production Assistant</p>
+          </div>
         </article>
       </div>
-    </div>
-  </section>
-
-  <!-- WORK: four projects, one row -->
-  <section class="section g2" id="work" aria-labelledby="work-h">
-    <div class="wrap">
-      <div class="group">
-      <div class="section-head">
-        <h2 id="work-h">Projects I built, led and tested</h2>
-        <p>A website of my own, a game jam I ran, and roles in games, AI and community.</p>
+      <div class="container film__foot">
+        <a class="link" href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">Full credits on IMDb ↗<span class="sr-only"> (opens in a new tab)</span></a>
+        <span class="fine">Stills are publicity images; titles belong to their owners and no affiliation is implied.</span>
       </div>
-      <div class="grid work">
-        <article class="card span-3">
-          <p class="t-label">Creator, website</p>
-          <h3>killedbydiscord.com</h3>
-          <p class="ph" data-placeholder>[What the site is, and why you made it.]</p>
-          <p class="card__foot"><a class="link" href="https://killedbydiscord.com" target="_blank" rel="noopener">Visit the site<span class="sr-only"> (opens in a new tab)</span></a></p>
-        </article>
-        <article class="card span-3">
-          <p class="t-label">QA and production lead</p>
-          <h3>A major game jam</h3>
-          <p>I ran quality assurance and production for a major gaming game jam, and led 48 participants on two occasions.</p>
-        </article>
-        <article class="card span-3">
-          <p class="t-label">Community and business development</p>
-          <h3>Chubby Pixel</h3>
-          <p>Community Manager and Business Development Manager.</p>
-        </article>
-        <article class="card span-3">
-          <p class="t-label">Game tester</p>
-          <h3>Discord</h3>
-          <p>I tested for Discord and received a recommendation from a former Community and Influencer Marketing Manager.</p>
+    </section>
+
+    <!-- Case study -->
+    <section class="section" id="case-study" aria-labelledby="case-title">
+      <div class="container">
+        <p class="kicker">Case study</p>
+        <h2 class="section__title" id="case-title">Can free products win a market?</h2>
+        <article class="window window--wide">
+          <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>economics-case-study</span></div>
+          <div class="window__body case">
+            <p class="case__meta">School research · Economics <span class="ph" data-placeholder>· [school, year]</span></p>
+            <p class="case__question">To what extent is offering free products an effective strategy for tech companies to gain market share?</p>
+            <p class="case__original" lang="nl">“In hoeverre is het aanbieden van gratis producten een effectieve strategie voor Tech bedrijven om marktaandeel te winnen?”</p>
+            <h3 class="case__sub">Interviews</h3>
+            <ul class="case__people">
+              <li><span>Relations Manager</span><span>Meta</span></li>
+              <li><span>Principal Growth Manager</span><span>Google</span></li>
+              <li><span>Shane Greenstein</span><span>Professor, Harvard Business School</span></li>
+            </ul>
+            <dl class="case__details">
+              <div><dt>Method</dt><dd class="ph" data-placeholder>[How the interviews ran and how you compared the answers.]</dd></div>
+              <div><dt>Findings</dt><dd class="ph" data-placeholder>[What you found, in two or three sentences.]</dd></div>
+              <div><dt>Outcome</dt><dd class="ph" data-placeholder>[Grade, presentation, or what came of it.]</dd></div>
+            </dl>
+          </div>
         </article>
       </div>
-      </div>
-      <div class="roles" id="roles">
-      <h3 class="roles__title">Every role so far</h3>
-      <div class="grid grid--top">
-        <div class="span-6">
-          <h4 class="t-label credits__head">Gaming and quality assurance</h4>
-          <ul class="rows">
-            <li><span class="rows__name">Keywords Studios</span><span class="rows__value">Game Tester</span></li>
-            <li><span class="rows__name">Discord</span><span class="rows__value">Game Tester</span></li>
-            <li><span class="rows__name">Medal.tv</span><span class="rows__value">Community QA Tester</span></li>
-            <li><span class="rows__name">RV There Yet?</span><span class="rows__value">Game Tester</span></li>
-            <li><span class="rows__name">A major game jam</span><span class="rows__value">QA and Production Lead</span></li>
-          </ul>
-        </div>
-        <div class="span-6 start-7">
-          <h4 class="t-label credits__head">Technology and AI</h4>
-          <ul class="rows">
-            <li><span class="rows__name">SpaceXAI(SI)</span><span class="rows__value">AI (SI) Trainer, Dutch</span></li>
-            <li><span class="rows__name">killedbydiscord.com</span><span class="rows__value">Creator</span></li>
-          </ul>
-          <h4 class="t-label credits__head">Community and business</h4>
-          <ul class="rows">
-            <li><span class="rows__name">Chubby Pixel</span><span class="rows__value">Community and Business Development Manager</span></li>
-            <li><span class="rows__name">The Dragon Prince, Wonderstorm</span><span class="rows__value">Ambassador</span></li>
-          </ul>
-        </div>
-      </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- OBSESSION: the scroll reveal, inside its own two-screen box (sticky only inside it) -->
-  <section class="section scene-obs" id="obsession" style="--h: 2" aria-labelledby="obs-h" data-scene="obsession">
-    <div class="wrap obs__stage">
-      <div class="obs__slit">
-        <img src="assets/images/obsession-still.jpg" alt="Still from Obsession (2025): a woman with long dark hair seated in a dimly lit booth" width="738" height="414" loading="lazy" decoding="async">
+    <!-- Travel: world map -->
+    <section class="section" id="travel" aria-labelledby="travel-title">
+      <div class="container">
+        <p class="kicker">Travel</p>
+        <h2 class="section__title tagline" id="travel-title">Straight to LA, New York, Vegas, <span class="accent">Africa.</span></h2>
+        <figure class="map">
+          <img src="assets/world-map.svg" alt="World map with the countries visited shown in red: the United States and twelve countries in Europe." width="1200" height="535" loading="lazy">
+        </figure>
+        <h3 class="sr-only">Countries visited</h3>
+        <ul class="countries">
+          <li>United States</li><li>Netherlands</li><li>United Kingdom</li><li>Germany</li><li>France</li><li>Italy</li><li>Switzerland</li>
+          <li>Austria</li><li>Luxembourg</li><li>Portugal</li><li>Denmark</li><li>Norway</li><li>Sweden</li><li>Finland</li>
+        </ul>
       </div>
-      <div class="obs__text">
-        <p class="t-label obs__kicker">Feature film, horror, 2025</p>
-        <h2 id="obs-h" class="obs__title">Obsession</h2>
-        <p class="obs__role">Production Assistant</p>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- HOUSE OF THE DRAGON: split, text left, picture right, an ember layer behind -->
-  <section class="section scene-hotd" id="dragon" aria-labelledby="hotd-h" data-ember-scene>
-    <canvas class="hotd__embers" aria-hidden="true"></canvas>
-    <div class="wrap">
-      <div class="grid hotd__grid">
-        <div class="span-6 hotd__copy">
-          <p class="t-label hotd__kicker">Television series</p>
-          <h2 id="hotd-h" class="hotd__title">House of the Dragon</h2>
-          <p class="t-lead">Production Assistant on the series.</p>
-          <p><a class="link" href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">See my credits on IMDb<span class="sr-only"> (opens in a new tab)</span></a></p>
-        </div>
-        <figure class="develop span-6 start-7 hotd__frame" data-moment="picture-develops"><img src="assets/images/hotd-approved.jpg" alt="Still from House of the Dragon: a figure in a red gown and gold-trimmed cloak stands before a throne of swords" width="1280" height="852" loading="lazy" decoding="async"></figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRAVEL: the beat-cut sequence, three screens; the tagline is the heading -->
-  <section class="section scene-tour" id="travel" aria-labelledby="travel-h" data-scene="tour">
-    <div class="wrap tour__stage" data-beat="0">
-      <div class="tour__frames">
-        <img class="tour__photo" data-i="0" src="assets/images/travel-los-angeles.jpg" alt="Olivier standing beside the Riot Games sign in Los Angeles" width="800" height="800" loading="lazy" decoding="async">
-        <img class="tour__photo" data-i="1" src="assets/images/travel-new-york.jpg" alt="Olivier by the East River in New York City, looking toward the Manhattan skyline beneath the Queensboro Bridge" width="1100" height="1462" loading="lazy" decoding="async">
-        <img class="tour__photo" data-i="2" src="assets/images/travel-las-vegas.jpg" alt="The Las Vegas Strip at night, seen from a pedestrian bridge" width="892" height="1484" loading="lazy" decoding="async">
-      </div>
-      <div class="tour__wrap">
-        <div class="tour__word" aria-hidden="true"><span data-w="0">LA</span><span data-w="1">New York</span><span data-w="2">Vegas</span></div>
-        <h2 class="tour__tagline" id="travel-h">
-          <span class="tw" data-t="0">Straight to LA,</span>
-          <span class="tw" data-t="1">New York,</span>
-          <span class="tw" data-t="2">Vegas,</span>
-          <span class="tw" data-t="3">Africa.</span>
-        </h2>
-        <div class="tour__beats" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer closing" id="contact" aria-labelledby="close-h">
-  <div class="wrap">
-    <div class="closing__cta close--type">
-      <div class="section-head">
-        <h2 id="close-h">Hiring for QA, community or production?</h2>
-        <p>Tell me what the project is and when it starts. I'm also on LinkedIn.</p>
-      </div>
-      <a class="btn btn--primary btn--xl btn--wide" href="mailto:contactolivierjanssen@gmail.com">Email Olivier<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M6 3l3 3-3 3"/></svg></a>
-    </div>
-    <div class="closing__links">
-      <div class="grid">
-        <div class="span-4 stack-4">
-          <a class="nav__logo" href="#top"><span class="mark" data-mark="ring" aria-hidden="true"></span>Olivier Janssen</a>
-          <p class="footer__lede">Games, community and production work.</p>
-        </div>
-        <div class="span-2 footer__col"><h3>Profiles</h3><ul>
-          <li><a href="https://www.linkedin.com/in/olivierbjanssen/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
-          <li><a href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">IMDb<span class="sr-only"> (opens in a new tab)</span></a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Projects</h3><ul>
-          <li><a href="https://killedbydiscord.com" target="_blank" rel="noopener">killedbydiscord.com<span class="sr-only"> (opens in a new tab)</span></a></li>
-          <li><a href="#research">Case study</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Sections</h3><ul>
-          <li><a href="#work">Work</a></li>
-          <li><a href="#roles">Roles</a></li></ul></div>
-        <div class="span-2 footer__col"><h3>Contact</h3><ul>
-          <li><a href="mailto:contactolivierjanssen@gmail.com">Email</a></li>
-          <li><a href="https://www.linkedin.com/in/olivierbjanssen/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li></ul></div>
-      </div>
-      <div class="footer__legal">
-        <span>&copy; <span data-year>2026</span> Olivier B. Janssen</span>
-        <span class="credits">Film stills: publicity images. Titles and trademarks belong to their owners; no affiliation is implied.</span>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<nav class="actionbar" aria-label="Quick actions">
-  <a class="btn btn--primary" href="mailto:contactolivierjanssen@gmail.com">Email Olivier</a>
-</nav>
-
-<script type="module" src="assets/system.js"></script>
-<script type="module" src="assets/motion/motion.js"></script>
-<script type="module" src="assets/layout/layout.js"></script>
-<script type="module" src="js/main.js"></script>
+  <footer class="footer container">
+    <p>© <span data-year>2026</span> Olivier B. Janssen</p>
+    <ul class="footer__links">
+      <li><a href="https://www.linkedin.com/in/olivierbjanssen/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+      <li><a href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">IMDb<span class="sr-only"> (opens in a new tab)</span></a></li>
+      <li><a href="https://killedbydiscord.com" target="_blank" rel="noopener">killedbydiscord.com<span class="sr-only"> (opens in a new tab)</span></a></li>
+    </ul>
+  </footer>
 </body>
 </html>
