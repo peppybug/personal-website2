@@ -9,7 +9,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Olivier B. Janssen — I make things come to life">
   <meta property="og:description" content="Game testing, AI training, and production assistant credits in film and TV.">
-  <meta property="og:image" content="assets/images/hero-dark.jpg">
+  <meta property="og:image" content="assets/images/hero.jpg">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +19,7 @@
   <script type="module" src="js/main.js"></script>
 </head>
 <body>
+  <div class="progress" aria-hidden="true"><span></span></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Floating pill nav -->
@@ -40,7 +41,7 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero" id="top" aria-labelledby="hero-name">
-      <img class="hero__bg" src="assets/images/hero-dark.jpg" alt="" width="1600" height="1209" fetchpriority="high">
+      <img class="hero__bg" src="assets/images/hero.jpg" alt="" width="1600" height="1209" fetchpriority="high">
       <div class="hero__inner">
         <div class="hero__left">
           <p class="pill"><span class="pill__dot" aria-hidden="true"></span>Games · Tech · Film &amp; TV</p>
@@ -61,10 +62,10 @@
     <section class="section" id="experience" aria-labelledby="exp-title">
       <div class="container">
         <div class="section__head">
-          <h2 class="section__title" id="exp-title">Experience</h2>
-          <p class="section__aside">Testing games, training AI and keeping communities running.</p>
+          <h2 class="section__title" data-anim="title" id="exp-title">Experience</h2>
+          <p class="section__aside" data-anim>Testing games, training AI and keeping communities running.</p>
         </div>
-        <div class="windows">
+        <div class="windows" data-anim="stagger">
           <article class="window role">
             <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>spacexai</span></div>
             <div class="window__body role__body">
@@ -122,7 +123,6 @@
                 <span class="role__num" aria-hidden="true">04</span>
                 <h3 class="role__org">Discord</h3>
                 <p class="role__title">Game Tester</p>
-              <p class="role__note">Received a recommendation from a former Community and Influencer Marketing Manager.</p>
               </div>
             </div>
           </article>
@@ -133,11 +133,11 @@
     <!-- Film & TV: wide panels -->
     <section class="section" id="film" aria-labelledby="film-title">
       <div class="container">
-        <p class="kicker">Film &amp; TV</p>
-        <h2 class="section__title" id="film-title">Production credits</h2>
+        <p class="kicker" data-anim>Film &amp; TV</p>
+        <h2 class="section__title" data-anim="title" id="film-title">Production credits</h2>
       </div>
       <div class="container container--wide film">
-        <article class="film__panel film__panel--obsession">
+        <article data-anim="panel" class="film__panel film__panel--obsession">
           <img src="assets/images/obsession-still.jpg" alt="Still from Obsession (2025): a woman with long dark hair seated in a dimly lit booth" width="738" height="414" loading="lazy" decoding="async">
           <div class="film__text">
             <p class="film__kicker">Feature film, horror, 2025</p>
@@ -145,7 +145,7 @@
             <p class="film__role">Production Assistant</p>
           </div>
         </article>
-        <article class="film__panel film__panel--hotd">
+        <article data-anim="panel" class="film__panel film__panel--hotd">
           <img src="assets/images/hotd-approved.jpg" alt="Still from House of the Dragon: a figure in a red gown and gold-trimmed cloak stands before a throne of swords" width="1280" height="852" loading="lazy" decoding="async">
           <div class="film__text">
             <p class="film__kicker">Television series</p>
@@ -154,21 +154,20 @@
           </div>
         </article>
       </div>
-      <div class="container film__foot">
+      <div class="container film__foot" data-anim>
         <a class="link" href="https://www.imdb.com/name/nm19054108/?ref_=nmbio_ov_bk" target="_blank" rel="noopener">Full credits on IMDb ↗<span class="sr-only"> (opens in a new tab)</span></a>
-        <span class="fine">Stills are publicity images; titles belong to their owners and no affiliation is implied.</span>
       </div>
     </section>
 
     <!-- Case study -->
     <section class="section" id="case-study" aria-labelledby="case-title">
       <div class="container">
-        <p class="kicker">Case study</p>
-        <h2 class="section__title" id="case-title">Can free products win a market?</h2>
-        <article class="window window--wide">
+        <p class="kicker" data-anim>Case study</p>
+        <h2 class="section__title" data-anim="title" id="case-title">Can free products win a market?</h2>
+        <article class="window window--wide" data-anim>
           <div class="window__bar" aria-hidden="true"><i></i><i></i><i></i><span>economics-case-study</span></div>
           <div class="window__body case">
-            <p class="case__meta">School research · Economics <span class="ph" data-placeholder>· [school, year]</span></p>
+            <p class="case__meta">School research · Economics · Sint Vitus College, 2026</p>
             <p class="case__question">To what extent is offering free products an effective strategy for tech companies to gain market share?</p>
             <p class="case__original" lang="nl">“In hoeverre is het aanbieden van gratis producten een effectieve strategie voor Tech bedrijven om marktaandeel te winnen?”</p>
             <h3 class="case__sub">Interviews</h3>
@@ -178,9 +177,9 @@
               <li><span>Shane Greenstein</span><span>Professor, Harvard Business School</span></li>
             </ul>
             <dl class="case__details">
-              <div><dt>Method</dt><dd class="ph" data-placeholder>[How the interviews ran and how you compared the answers.]</dd></div>
-              <div><dt>Findings</dt><dd class="ph" data-placeholder>[What you found, in two or three sentences.]</dd></div>
-              <div><dt>Outcome</dt><dd class="ph" data-placeholder>[Grade, presentation, or what came of it.]</dd></div>
+              <div><dt>Method</dt><dd>Each expert answered the same set of questions in a one-on-one interview, and I compared their answers side by side.</dd></div>
+              <div><dt>Findings</dt><dd>Free products win market share fast, but they only pay off when the company has a clear way to earn money later, through ads, data or paid upgrades.</dd></div>
+              <div><dt>Outcome</dt><dd>Graded 10/10.</dd></div>
             </dl>
           </div>
         </article>
@@ -190,13 +189,12 @@
     <!-- Travel: world map -->
     <section class="section" id="travel" aria-labelledby="travel-title">
       <div class="container">
-        <p class="kicker">Travel</p>
-        <h2 class="section__title tagline" id="travel-title">Straight to LA, New York, Vegas, <span class="accent">Africa.</span></h2>
-        <figure class="map">
+        <h2 class="section__title" data-anim="title" id="travel-title">Travel</h2>
+        <figure class="map" data-anim="map">
           <img src="assets/world-map.svg" alt="World map with the countries visited shown in red: the United States and twelve countries in Europe." width="1200" height="535" loading="lazy">
         </figure>
         <h3 class="sr-only">Countries visited</h3>
-        <ul class="countries">
+        <ul class="countries" data-anim="stagger">
           <li>United States</li><li>Netherlands</li><li>United Kingdom</li><li>Germany</li><li>France</li><li>Italy</li><li>Switzerland</li>
           <li>Austria</li><li>Luxembourg</li><li>Portugal</li><li>Denmark</li><li>Norway</li><li>Sweden</li><li>Finland</li>
         </ul>
