@@ -307,3 +307,5 @@ html:not(.js) .pill-nav__menu { position: static; display: flex; flex-wrap: wrap
 .anim [data-anim="map"].is-in img { filter: none; }
 .anim .layer--clouds { animation: drift 60s ease-in-out infinite alternate; }
 @keyframes drift { from { translate: -3vw 0; } to { translate: 3vw 0; } }
+/* phones: keep the sun low on the horizon, clear of the summit buttons */
+@media (max-width: 760px) { .sun { top: 56%; left: 4%; width: 40vmin; height: 40vmin; } }
