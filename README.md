@@ -1,4 +1,4 @@
-# Portfolio — Olivier B. Janssen
+# Portfolio — 
 
 A personal portfolio site that covers technology, gaming, film & television, and entrepreneurship.
 It is plain HTML, CSS, and JavaScript, with no build step and no dependencies.
