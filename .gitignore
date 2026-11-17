@@ -23,3 +23,6 @@ Thumbs.db
 skills-lock.json
 .taste-skill/
 shots/
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
