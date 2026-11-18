@@ -64,55 +64,80 @@ function drawWall() {
   const atClimber = (sec) => { const sc = Math.min(maxScroll, Math.max(0, sec.offsetTop + sec.offsetHeight / 2 - vh / 2)); return vh * CLIMBER_Y - wallShift(sc); };
   const taper = vh * .9;
 
-  // rock colour by height: warm sandstone low, granite higher, snow at the top
-  const defs = el('defs', {}, art);
-  const g = el('linearGradient', { id: 'rock', x1: 0, y1: peakY, x2: 0, y2: H, gradientUnits: 'userSpaceOnUse' }, defs);
-  [[0, '#E9ECF1'], [.14, '#B9B6BC'], [.42, '#938C93'], [.7, '#C38A60'], [1, '#D99E66']].forEach(([o, c]) => el('stop', { offset: o, 'stop-color': c }, g));
+  // rock colour by height: warm sandstone low, granite higher, pale and cold near the top
+  const STOPS = [[0, '#D9DCE3'], [.16, '#A9A4AC'], [.45, '#8E8288'], [.72, '#BC8259'], [1, '#D49761']];
+  const hexRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const mix = (c1, c2, t) => c1.map((v, i) => Math.round(v + (c2[i] - v) * t));
+  const rgb = (c) => `rgb(${c.join(',')})`;
+  const INK = [28, 20, 16], LIGHT = [255, 240, 220];
+  const tone = (y) => {
+    const t = Math.min(1, Math.max(0, (y - peakY) / (H - peakY)));
+    for (let i = 0; i < STOPS.length - 1; i++) if (t <= STOPS[i + 1][0]) return mix(hexRgb(STOPS[i][1]), hexRgb(STOPS[i + 1][1]), (t - STOPS[i][0]) / (STOPS[i + 1][0] - STOPS[i][0]));
+    return hexRgb(STOPS[STOPS.length - 1][1]);
+  };
 
-  // left edge of the face
-  const edge = []; for (let y = H + 40; y > peakY + taper; y -= 90) edge.push([W * (.06 + r() * .22), y]);
+  // silhouette of the face
+  const edge = []; for (let y = H + 40; y > peakY + taper; y -= 110) edge.push([W * (.08 + r() * .18), y]);
   const edgeAt = (y) => { for (let i = 0; i < edge.length - 1; i++) { const a = edge[i], b = edge[i + 1]; if (y <= a[1] && y >= b[1]) return a[0] + (b[0] - a[0]) * (a[1] - y) / (a[1] - b[1]); } return y > peakY + taper ? edge[0][0] : peak[0] - (peak[0] - edge[edge.length - 1][0]) * (y - peakY) / taper; };
-  const rightAt = (y) => y < peakY + taper * .7 ? peak[0] + (W + 30 - peak[0]) * (y - peakY) / (taper * .7) : W;
+  const rightAt = (y) => y < peakY + taper * .7 ? peak[0] + (W + 30 - peak[0]) * (y - peakY) / (taper * .7) : W + 30;
   const left = [...edge];
-  for (let k = 1; k <= 4; k++) { const y = peakY + taper * (1 - k / 5); left.push([edgeAt(y) + (r() - .5) * 20, y]); }
-  const rightTop = [[peak[0] + W * .12, peakY + taper * .25], [peak[0] + W * .26, peakY + taper * .45], [W + 30, peakY + taper * .7]];
+  for (let k = 1; k <= 5; k++) { const y = peakY + taper * (1 - k / 6); left.push([edgeAt(y) + (r() - .5) * 16, y]); }
+  const rightTop = [[peak[0] + W * .14, peakY + taper * .22], [peak[0] + W * .3, peakY + taper * .46], [W + 30, peakY + taper * .7]];
   const outline = [[W + 30, H + 40], ...left, peak, ...rightTop];
-  el('polygon', { class: 'w-rock', fill: 'url(#rock)', points: pts(outline) }, art);
+  const defs = el('defs', {}, art);
+  el('polygon', { points: pts(outline) }, el('clipPath', { id: 'face' }, defs));
+  el('polygon', { fill: rgb(tone(H * .6)), points: pts(outline) }, art);
+  const slabs = el('g', { 'clip-path': 'url(#face)' }, art);
 
-  // facets and shadow planes
-  for (let y = peakY + 120; y < H; y += 110 + r() * 60) {
-    const e = edgeAt(y), R = rightAt(y) - 30; if (R - e < 80) continue;
-    const x = e + (R - e) * (.1 + r() * .55), h = 70 + r() * 110, d = 26 + r() * 56;
-    el('polygon', { class: 'w-face w-shade', points: pts([[x, y], [x + d, y + h * .45], [x + d * .35, y + h], [x - d * .2, y + h * .55]]) }, art);
-    el('polygon', { class: 'w-face w-shade', points: pts([[e, y - 40], [e + 26 + r() * 30, y], [e + 10, y + 70]]) }, art);
+  // the face is built from tiers of slabs: lit left plane, shaded right plane,
+  // a dark undercut under every tier, ink on every edge
+  let ty = peakY + 30;
+  while (ty < H) {
+    const th = 120 + r() * 110, y0 = ty, y1 = ty + th, mid = (y0 + y1) / 2;
+    const e = edgeAt(mid) - 40, R = rightAt(mid) + 10;
+    const n = Math.max(2, Math.round((R - e) / (110 + r() * 60)));
+    let xt = e, xb = e - 10 - r() * 20;
+    const base = tone(mid);
+    for (let i = 0; i < n; i++) {
+      const wt = (R - e) / n * (.75 + r() * .5), wb = wt * (.85 + r() * .35);
+      const x2t = i === n - 1 ? R : xt + wt, x2b = i === n - 1 ? R + 10 : xb + wb;
+      const j0 = (r() - .5) * 18, j1 = (r() - .5) * 18;
+      const lit = mix(base, LIGHT, .12 + r() * .1), dark = mix(base, INK, .26 + r() * .1);
+      const split = .55 + r() * .2;
+      const mt = xt + (x2t - xt) * split, mb = xb + (x2b - xb) * (split + .12);
+      el('polygon', { class: 'w-slab', fill: rgb(lit), points: pts([[xt, y0 + j0], [x2t, y0 + j1], [x2b, y1], [xb, y1]]) }, slabs);
+      el('polygon', { fill: rgb(dark), points: pts([[mt, y0 + (j0 + j1) / 2], [x2t, y0 + j1], [x2b, y1], [mb, y1]]) }, slabs);
+      el('polygon', { class: 'w-slab-edge', points: pts([[xt, y0 + j0], [x2t, y0 + j1], [x2b, y1], [xb, y1]]) }, slabs);
+      // a crack down the lit face now and then
+      if (r() < .35) { let cx = xt + (mt - xt) * (.3 + r() * .4), d = `M${f(cx)} ${f(y0 + 10)}`; for (let k = 1; k <= 3; k++) { cx += (r() - .5) * 14; d += ` L${f(cx)} ${f(y0 + 10 + (th - 20) * k / 3)}`; } el('path', { class: 'w-crack', d }, slabs); }
+      xt = x2t; xb = x2b;
+    }
+    el('polygon', { fill: rgb(mix(base, INK, .55)), points: pts([[e - 40, y1 - 2], [R + 40, y1 - 2], [R + 40, y1 + 7], [e - 40, y1 + 9]]) }, slabs);
+    // snow settles on the tier tops near the summit
+    if (y0 < peakY + vh * 1.1) {
+      for (let x = e; x < R; x += 50 + r() * 70) {
+        const w = 40 + r() * 70;
+        el('path', { class: 'w-snow', d: `M${f(x)} ${f(y0 + 2)} Q${f(x + w / 2)} ${f(y0 - 12 - r() * 6)} ${f(x + w)} ${f(y0 + 2)} L${f(x + w * .8)} ${f(y0 + 10)} L${f(x + w * .55)} ${f(y0 + 6)} L${f(x + w * .3)} ${f(y0 + 13)} Z` }, slabs);
+      }
+    }
+    ty = y1 + 8;
   }
-  // cracks
-  for (let y = peakY + 200; y < H; y += 260 + r() * 200) {
-    const R = rightAt(y) - 30; if (R - edgeAt(y) < 80) continue;
-    let x = edgeAt(y) + (R - edgeAt(y)) * (.2 + r() * .6), d = `M${f(x)} ${f(y)}`;
-    for (let k = 0; k < 4; k++) { x += (r() - .5) * 40; d += ` L${f(x)} ${f(y + (k + 1) * 34)}`; }
-    el('path', { class: 'w-crack', d }, art);
-  }
-  // snow near the top
-  for (let y = peakY + 60; y < peakY + vh * 1.4; y += 70 + r() * 60) {
-    const e = edgeAt(y) + 12, w = 30 + r() * 60, R = rightAt(y) - 12 - w; if (R - e < 10) continue;
-    const x = e + (R - e) * r();
-    el('polygon', { class: 'w-snow', points: pts([[x, y], [x + w * .6, y - 8], [x + w, y + 6], [x + w * .5, y + 14 + r() * 10], [x + w * .1, y + 10]]) }, art);
-  }
-  el('polygon', { class: 'w-snow', points: pts([peak, [peak[0] + W * .1, peakY + 70], [peak[0] + 30, peakY + 58], [peak[0], peakY + 86], [peak[0] - 30, peakY + 52], [peak[0] - W * .09, peakY + 66]]) }, art);
+  // summit cap
+  el('polygon', { class: 'w-snow', points: pts([peak, [peak[0] + W * .1, peakY + 64], [peak[0] + 34, peakY + 52], [peak[0] + 8, peakY + 82], [peak[0] - 26, peakY + 50], [peak[0] - W * .09, peakY + 60]]) }, art);
+  el('polygon', { class: 'w-rock', fill: 'none', points: pts(outline) }, art);
 
   // base camp ground
   el('polygon', { class: 'w-ledge', fill: '#8A6A48', points: pts([[-W * .35, H + 40], [-W * .12, baseY + 40], [W * .1, baseY + 4], [W + 30, baseY - 6], [W + 30, H + 40]]) }, art);
-  for (let k = 0; k < 9; k++) { const x = W * (.05 + r() * .9), yy = baseY + 16 + r() * 40; el('ellipse', { class: 'w-hold', cx: f(x), cy: f(yy), rx: f(8 + r() * 14), ry: f(4 + r() * 5) }, art); }
+  for (let k = 0; k < 7; k++) { const x = W * (.08 + r() * .86), yy = baseY + 18 + r() * 36, w = 14 + r() * 22; el('polygon', { class: 'w-stone', points: pts([[x, yy], [x + w * .4, yy - w * .45], [x + w, yy - w * .2], [x + w * .9, yy + 4], [x + w * .1, yy + 4]]) }, art); }
   tent(W * .58, baseY - 2, 1.15); tent(W * .82, baseY - 4, .9);
 
-  // ledges at each camp
+  // ledges at each camp: a proper shelf with its underside in shadow
   const camps = sections.slice(1, -1).map((sec) => atClimber(sec) + 10);
   for (const y of camps) {
-    const e = edgeAt(y), w = Math.min(W * .62, 240);
-    el('polygon', { class: 'w-ledge', fill: 'url(#rock)', points: pts([[e - 40, y], [e + w, y - 2], [e + w + 10, y + 14], [e + w * .4, y + 38], [e - 26, y + 24]]) }, art);
-    el('polygon', { class: 'w-face w-shade', points: pts([[e + w * .4, y + 38], [e + w + 10, y + 14], [e + w * .6, y + 18]]) }, art);
-    tent(e + w * .5, y, .8);
+    const e = edgeAt(y), w = Math.min(W * .62, 250), c = tone(y);
+    el('polygon', { class: 'w-ledge', fill: rgb(mix(c, INK, .5)), points: pts([[e - 46, y + 10], [e + w + 14, y + 10], [e + w * .55, y + 46], [e - 20, y + 34]]) }, art);
+    el('polygon', { class: 'w-ledge', fill: rgb(mix(c, LIGHT, .25)), points: pts([[e - 50, y], [e + w, y - 3], [e + w + 14, y + 10], [e - 46, y + 12]]) }, art);
+    tent(e + w * .55, y, .8);
   }
 
   // the route: from base camp up to the peak, through the camp ledges
@@ -121,19 +146,21 @@ function drawWall() {
   let y = startY;
   const stops = [...camps].sort((a, b) => b - a);
   while (y > peakY + 140) {
-    y -= 120 + r() * 70;
-    const next = stops.find((c) => c < route[route.length - 1][1] && c >= y);
-    if (next) { const e = edgeAt(next); route.push([e + Math.min(W * .62, 240) * .2, next - 6]); y = next - 6; continue; }
+    y -= 130 + r() * 70;
+    const next = stops.find((cy) => cy < route[route.length - 1][1] && cy >= y);
+    if (next) { const e = edgeAt(next); route.push([e + Math.min(W * .62, 250) * .2, next - 6]); y = next - 6; continue; }
     if (y <= peakY + 140) break;
-    const e = edgeAt(y); route.push([e + (W * .9 - e) * (.25 + r() * .6), y]);
+    const e = edgeAt(y); route.push([e + (W * .88 - e) * (.3 + r() * .5), y]);
   }
   route.push([peak[0] - 6, peakY + 6]);
-  const d = 'M' + route.map(([x, yy]) => `${f(x)} ${f(yy)}`).join(' L');
+  // the rope sags a little between bolts
+  let d = `M${f(route[0][0])} ${f(route[0][1])}`;
+  for (let i = 1; i < route.length; i++) { const [ax, ay] = route[i - 1], [bx, by] = route[i]; d += ` Q${f((ax + bx) / 2 + 6)} ${f((ay + by) / 2 + 16)} ${f(bx)} ${f(by)}`; }
   el('path', { class: 'w-rope-shadow', d }, art);
   el('path', { class: 'w-rope', d }, art);
   for (const [x, yy] of route.slice(1, -1)) {
-    el('circle', { class: 'w-piton', cx: f(x), cy: f(yy), r: 5 }, art);
-    for (let k = 0; k < 2; k++) el('ellipse', { class: 'w-hold', cx: f(x + (r() - .5) * 90), cy: f(yy + 30 + r() * 60), rx: f(6 + r() * 6), ry: f(4 + r() * 3) }, art);
+    el('path', { class: 'w-bolt', d: `M${f(x - 5)} ${f(yy - 6)} h10 v8 a5 5 0 0 1 -10 0 z` }, art);
+    el('circle', { class: 'w-bolt-hole', cx: f(x), cy: f(yy + 2), r: 2 }, art);
   }
   // flag on the summit
   el('line', { class: 'w-flag-pole', x1: f(peak[0] + 14), y1: f(peakY + 2), x2: f(peak[0] + 14), y2: f(peakY - 92) }, art);
