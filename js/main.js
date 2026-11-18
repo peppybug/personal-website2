@@ -45,7 +45,7 @@ const wallShift = (s) => -(WH - innerHeight) * (1 - s / maxScroll);   // wall y 
 const wall = document.querySelector('.wall');
 const art = document.querySelector('.wall__art');
 const climber = document.querySelector('.climber');
-let route = [], peak = [0, 0], baseY = 0, wallLeft = 0;
+let route = [], peak = [0, 0], baseY = 0, wallLeft = 0, tether = null;
 
 function drawWall() {
   const W = wall.clientWidth, vh = innerHeight;
@@ -198,6 +198,9 @@ function drawWall() {
     el('path', { class: 'w-bolt', d: `M${f(x - 5)} ${f(yy - 6)} h10 v8 a5 5 0 0 1 -10 0 z` }, art);
     el('circle', { class: 'w-bolt-hole', cx: f(x), cy: f(yy + 2), r: 2 }, art);
   }
+  // the rope that catches him when he falls, hidden until then
+  tether = el('g', { class: 'w-tether', hidden: '' }, art);
+  el('path', { class: 'w-rope-shadow' }, tether); el('path', { class: 'w-rope' }, tether);
   // flag on the summit
   el('line', { class: 'w-flag-pole', x1: f(peak[0] + 14), y1: f(peakY + 2), x2: f(peak[0] + 14), y2: f(peakY - 92) }, art);
   el('path', { class: 'w-flag', d: `M${f(peak[0] + 15)} ${f(peakY - 90)} C${f(peak[0] + 40)} ${f(peakY - 98)} ${f(peak[0] + 52)} ${f(peakY - 80)} ${f(peak[0] + 76)} ${f(peakY - 88)} L${f(peak[0] + 76)} ${f(peakY - 56)} C${f(peak[0] + 52)} ${f(peakY - 48)} ${f(peak[0] + 40)} ${f(peakY - 66)} ${f(peak[0] + 15)} ${f(peakY - 58)} Z` }, art);
@@ -278,14 +281,57 @@ function frame() {
     if (docY >= route[0][1]) { cx = route[0][0]; cy = route[0][1] + shift; }                       // at the foot of the route
     else if (docY <= peak[1] + 6) { cx = peak[0] - 6; cy = peak[1] + shift - ch * .35; top = true; }  // on the summit
     else { cx = routeXAt(docY); cy = vh * CLIMBER_Y; }
-    climber.style.setProperty('--cx', (wallLeft + cx - cw / 2).toFixed(1) + 'px');
-    climber.style.setProperty('--cy', (cy - ch / 2).toFixed(1) + 'px');
+    // now and then he slips as he passes a bolt (never near the top, never twice in a row)
+    const next = route.findIndex((pt) => pt[1] < docY);
+    if (!reduce && !fall && !top && lastBolt >= 0 && next === lastBolt + 1 && next < route.length - 2 && performance.now() - lastFall > 12000 && Math.random() < .2) startFall(route[next - 1], docY);
+    lastBolt = docY >= route[0][1] || top ? -1 : next;
+    let sx = 0, fy = 0, rot = 0;
+    // a jump along the page (menu link, fast fling) cancels a fall in progress
+    if (fall && (top || Math.abs(docY - fall.docY) > ch)) endFall();
+    if (fall) {
+      // hang below the nearest bolt above, on a taut rope, swinging in under it
+      const bolt = fall.bolt;
+      // he falls past the bolt he just clipped and comes to hang most of a body length below it
+      if (fall.D == null) fall.D = Math.max(ch * .5, bolt[1] + ch * .85 - (cy - ch / 2 + ch * TIE[1] - shift));
+      const wy = cy - ch / 2 + fall.y + ch * TIE[1] - shift;
+      sx = (bolt[0] - cx) * fall.k; fy = fall.y;
+      const tx = cx + sx;
+      rot = Math.max(-35, Math.min(35, Math.atan2(bolt[0] - tx, Math.max(1, wy - bolt[1])) * 180 / Math.PI)) * fall.r;
+      const d = `M${f(bolt[0])} ${f(bolt[1])} L${f(tx)} ${f(wy)}`;
+      for (const pth of tether.children) pth.setAttribute('d', d);
+      tether.removeAttribute('hidden');
+    } else if (tether) tether.setAttribute('hidden', '');
+    climber.style.setProperty('--cx', (wallLeft + cx + sx - cw / 2).toFixed(1) + 'px');
+    climber.style.setProperty('--cy', (cy + fy - ch / 2).toFixed(1) + 'px');
+    climber.style.setProperty('--rot', rot.toFixed(2) + 'deg');
     climber.classList.toggle('top', top);
     if (!top) pose(reduce ? 0 : (route[0][1] - docY) / (cw / 60) / CYCLE);
     else torso.removeAttribute('transform');
     climber.classList.add('is-ready');
   }
 }
+/* ---------- Falls ----------
+   He slips, drops past the rope with a stretch and a bounce, swings in under the bolt,
+   hangs for a moment holding the rope, then pulls back onto the rock. */
+const TIE = [.517, .571];                 // the rope tie-in, as a fraction of the climber box
+let fall = null, lastFall = -1e9, lastBolt = -1;
+function startFall(bolt, docY) {
+  fall = { t0: performance.now(), y: 0, k: 0, r: 0, bolt, docY, D: null };
+  climber.classList.add('falling', 'roped');
+  requestAnimationFrame(fallTick);
+}
+function endFall() { fall = null; lastFall = performance.now(); climber.classList.remove('falling', 'roped'); }
+function fallTick(now) {
+  if (!fall) return;
+  const t = (now - fall.t0) / 1000, D = fall.D ?? climber.clientHeight * .5, DROP = .34, BACK = 2.6, END = 3.5;
+  if (t < DROP) { const q = t / DROP; fall.y = D * q * q; fall.k = 0; fall.r = q; }
+  else if (t < BACK) { const u = t - DROP; fall.y = D + D * .28 * Math.exp(-4.2 * u) * Math.sin(12 * u); fall.k = 1 - Math.exp(-1.4 * u) * Math.cos(4.4 * u); fall.r = 1; }
+  else { const e = smooth((t - BACK) / (END - BACK)); fall.y = D * (1 - e); fall.k = 1 - e; fall.r = 1 - e; climber.classList.remove('falling'); }
+  if (t >= END) endFall();
+  frame();
+  if (fall) requestAnimationFrame(fallTick);
+}
+
 /* ---------- Climbing cycle ----------
    Each hand and foot grips a hold that stays put on the rock, so while it grips it slides
    down relative to the body as he rises. One limb moves at a time, in the diagonal order

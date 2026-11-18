@@ -78,7 +78,7 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 2px
 .wall { position: fixed; top: 0; right: 0; height: 100vh; width: var(--wall-w); pointer-events: none; z-index: 1; overflow: hidden; }
 .wall__art { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; overflow: visible; will-change: transform; }
 html:not(.js) .wall { display: none; }
-.climber { position: fixed; top: 0; left: 0; width: 70px; height: 114px; z-index: 5; transform: translate3d(var(--cx, -200px), var(--cy, 0px), 0); visibility: hidden; }
+.climber { position: fixed; top: 0; left: 0; width: 70px; height: 114px; z-index: 5; transform: translate3d(var(--cx, -200px), var(--cy, 0px), 0) rotate(var(--rot, 0deg)); transform-origin: 51.7% 57.1%; visibility: hidden; }
 .js .climber.is-ready { visibility: visible; }
 .climber * { stroke-linecap: round; stroke-linejoin: round; }
 .climber .cl-o { fill: none; stroke: var(--ink); stroke-width: 7.6; }
@@ -101,7 +101,9 @@ html:not(.js) .wall { display: none; }
 .cl-helmet-line { fill: none; stroke: rgba(28, 20, 16, .45); stroke-width: 1.2; }
 .cl-rope { fill: none; stroke: var(--rust); stroke-width: 3; }
 .climber.top .cl-rope { display: none; }
-.climber .cl-top, .climber.top .cl-climb { display: none; }
+.climber .cl-top, .climber .cl-fall, .climber.top .cl-climb, .climber.falling .cl-climb, .climber.roped .cl-rope { display: none; }
+.climber.falling .cl-fall { display: inline; }
+.w-tether[hidden] { display: none; }
 .climber.top .cl-top { display: inline; }
 
 /* wall art classes (drawn in JS) */
