@@ -100,8 +100,7 @@ html:not(.js) .wall { display: none; }
 .cl-helmet { fill: #F08A24; stroke: var(--ink); stroke-width: 2.2; }
 .cl-helmet-line { fill: none; stroke: rgba(28, 20, 16, .45); stroke-width: 1.2; }
 .cl-rope { fill: none; stroke: var(--rust); stroke-width: 3; }
-.climber__body { transform-origin: 0 0; transition: transform .25s var(--ease); }
-.climber.pose-b .climber__body { transform: scaleX(-1); }
+.climber.top .cl-rope { display: none; }
 .climber .cl-top, .climber.top .cl-climb { display: none; }
 .climber.top .cl-top { display: inline; }
 

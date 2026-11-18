@@ -281,10 +281,64 @@ function frame() {
     climber.style.setProperty('--cx', (wallLeft + cx - cw / 2).toFixed(1) + 'px');
     climber.style.setProperty('--cy', (cy - ch / 2).toFixed(1) + 'px');
     climber.classList.toggle('top', top);
-    climber.classList.toggle('pose-b', !reduce && !top && Math.floor(docY / 64) % 2 === 1);
+    if (!top) pose(reduce ? 0 : (route[0][1] - docY) / (cw / 60) / CYCLE);
+    else torso.removeAttribute('transform');
     climber.classList.add('is-ready');
   }
 }
+/* ---------- Climbing cycle ----------
+   Each hand and foot grips a hold that stays put on the rock, so while it grips it slides
+   down relative to the body as he rises. One limb moves at a time, in the diagonal order
+   climbers use (right hand, left foot, left hand, right foot); elbows and knees are
+   solved with two-bone IK and bend outward. Units are the climber's viewBox units. */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const GRIP = .75, REACH = 20, CYCLE = REACH / GRIP;
+const climbG = climber.querySelector('.cl-climb'), torso = climber.querySelector('.cl-torso');
+const mk = (tag, cls, parent) => { const n = document.createElementNS(SVGNS, tag); n.setAttribute('class', cls); parent.appendChild(n); return n; };
+const LIMBS = [
+  { leg: true, side: -1, root: [-4.5, 9], a: 14, b: 15, top: 18, x: -10, off: .25 },
+  { leg: true, side: 1, root: [4.5, 9], a: 14, b: 15, top: 18, x: 9.5, off: .75 },
+  { leg: false, side: 1, root: [8, -12], a: 14, b: 14, top: -40, x: 13.5, off: 0 },
+  { leg: false, side: -1, root: [-8, -12], a: 14, b: 14, top: -40, x: -14, off: .5 },
+].map((l) => {
+  l.o = mk('path', 'cl-o', climbG); l.p = mk('path', l.leg ? 'cl-pants' : 'cl-sleeve', climbG);
+  if (l.leg) { l.end = mk('path', 'cl-boot', climbG); l.end.setAttribute('d', 'M-5 -2 h8 a2.5 2.5 0 0 1 2.5 2.5 v1.5 h-12 v-1.5 a2.5 2.5 0 0 1 1.5 -2.5 z'); }
+  else { l.end = mk('circle', 'cl-glove', climbG); l.end.setAttribute('r', '3.2'); }
+  return l;
+});
+climbG.append(...LIMBS.filter((l) => !l.leg).flatMap((l) => [l.o, l.p, l.end]));   // arms over legs
+const holdX = (l, i) => l.x + 3.2 * Math.sin(i * 2.39 + l.off * 9) * l.side;
+function ik(S, E, a, b, side) {
+  let dx = E[0] - S[0], dy = E[1] - S[1], d = Math.hypot(dx, dy) || .01;
+  const max = a + b - .4;
+  if (d > max) { E = [S[0] + dx / d * max, S[1] + dy / d * max]; dx = E[0] - S[0]; dy = E[1] - S[1]; d = max; }
+  d = Math.max(d, Math.abs(a - b) + .5);
+  const ang = Math.atan2(dy, dx), al = Math.acos(Math.min(1, (a * a + d * d - b * b) / (2 * a * d)));
+  const j1 = [S[0] + a * Math.cos(ang + al), S[1] + a * Math.sin(ang + al)], j2 = [S[0] + a * Math.cos(ang - al), S[1] + a * Math.sin(ang - al)];
+  // knees bend outward; elbows hang down and out, as when pulling on a hold
+  const pick = side === 0 ? (j1[1] > j2[1] ? j1 : j2) : ((j1[0] - j2[0]) * side > 0 ? j1 : j2);
+  return [pick, E];
+}
+function pose(p) {
+  // the weight shifts toward the side whose hand is gripping, with a small bob from each push
+  const bx = 1.6 * Math.sin(2 * Math.PI * p), by = 1.1 * Math.sin(4 * Math.PI * p);
+  torso.setAttribute('transform', `translate(${bx.toFixed(2)} ${by.toFixed(2)}) rotate(${(bx * 1.4).toFixed(2)} 0 0)`);
+  for (const l of LIMBS) {
+    const ph = p + l.off, i = Math.floor(ph), q = ph - i;
+    let x, y;
+    if (q < GRIP) { x = holdX(l, i); y = l.top + REACH * (q / GRIP); }                   // gripping: hold slides down
+    else { const m = (q - GRIP) / (1 - GRIP), e = m * m * (3 - 2 * m);                    // moving up to the next hold
+      x = holdX(l, i) + (holdX(l, i + 1) - holdX(l, i)) * e + l.side * 3.5 * Math.sin(Math.PI * m);
+      y = l.top + REACH - REACH * e - (l.leg ? 0 : 2.5 * Math.sin(Math.PI * m)); }
+    const S = [l.root[0] + bx, l.root[1] + by], [J, E] = ik(S, [x, y], l.a, l.b, l.leg ? l.side : 0);
+    const d = `M${S[0].toFixed(2)} ${S[1].toFixed(2)} L${J[0].toFixed(2)} ${J[1].toFixed(2)} L${E[0].toFixed(2)} ${E[1].toFixed(2)}`;
+    l.o.setAttribute('d', d); l.p.setAttribute('d', d);
+    if (l.leg) l.end.setAttribute('transform', `translate(${E[0].toFixed(2)} ${(E[1] + 1).toFixed(2)})`);
+    else { l.end.setAttribute('cx', E[0].toFixed(2)); l.end.setAttribute('cy', (E[1] - 1).toFixed(2)); }
+  }
+}
+pose(0);
+
 const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
 function layout() { drawWall(); measure(); queue(); }
 addEventListener('scroll', queue, { passive: true });
