@@ -7,18 +7,18 @@ related_targets: []
 
 Mode: Experience
 
-Scope: the whole one-page portfolio (index.html). Audience: anyone opening the link. Success: the visitor is impressed and remembers Olivier. Constraints: real content only; nothing pushed to main without Olivier's go-ahead.
+Scope: the whole one-page portfolio (index.html). Audience: anyone opening the link. Success: the visitor is impressed and feels the climb. Constraints: real content only; original art (Cairn-like mood, never its art, characters or logo); nothing pushed to main without Olivier's go-ahead.
 
 ## Direction contract
 
-THESIS: The ascent as a climbing-hardware mail-order catalog. Each camp is a numbered catalog page and each role a piece of kit hung on its tag. Refuses the category default of an illustrated mountain backdrop with floating content cards.
+THESIS: The page is one vertical rock face and the visitor climbs it. A lone climber ascends beside the content as you scroll, hold by hold, from Base Camp to the summit. Refuses the backdrop-plus-cards portfolio.
 
-OWN-WORLD: Kraft stock as the ground and major surfaces, rich black ink for type and line-drawn hardware plates (ice axe, carabiner, rope, crampon, tent), safety orange for item tags and the one primary action, and a stitched rule seaming every item to its caption. Condensed industrial display caps with tabular catalog numerals over a plain workhorse text face.
+OWN-WORLD: Original comic-style illustration: inked outlines over flat warm colour. Ochre and rust sandstone low on the wall, grey granite higher, snow at the top; teal and rust for the climber; a sky that moves from day to sunset to stars. Content on pages pinned to the wall with an ink border.
 
-STORY: The visitor opens the expedition catalog, climbs page by page from Base Camp (5,364 m) to the summit (8,849 m), learns Olivier's kit (roles, credits, research, travel) and closes it at the top, impressed.
+STORY: The visitor starts at the foot of the wall, climbs past ledges at each camp (Experience, Film & TV, Research, Travel) and tops out on the summit with the climber.
 
-FIRST VIEWPORT: A full-viewport catalog cover on kraft. Huge black "No. 8849" at left, "Olivier B. Janssen" set as the catalog title, the tagline as the cover line, and a large line-drawn ice axe and carabiner plate at right. A sticky catalog index lists the camps with altitudes, and a lit altitude counter rolls digits. The orange tag "Start the climb" is the action.
+FIRST VIEWPORT: The foot of the wall at Base Camp: the name large on the left, "I make things come to life.", a Start climbing action; the rock face rises on the right with the climber clipped to the first piton and the rope running up.
 
-FORM: Kit catalog, position 5 of 7 on the ordered list. seed:7e6550b533176bd2. Raises: altitude as the single warm lit readout with mechanical digit rollover (from nixie counter); fixed three-tier camp headline of hook, title and promise (from pulp rack); one camp per full-width row with the altitude gained ruled like a chalk mark (from forge blows); every item seamed to its caption with a visible stitched rule (from memory quilt).
+FORM: seed: none (pinned). "The whole page is one huge vertical rock face. A small climber with a backpack climbs up beside your content as you scroll: reaching for holds, roped to pitons, resting on ledges at each camp." Signature interaction: the climber follows the rope route as you scroll, alternating reaches, and raises both arms at the summit.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
