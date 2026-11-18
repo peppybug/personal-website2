@@ -77,7 +77,7 @@ function drawWall() {
   };
 
   // silhouette of the face
-  const edge = []; for (let y = H + 40; y > peakY + taper; y -= 110) edge.push([W * (.08 + r() * .18), y]);
+  const edge = []; for (let y = H + 40, k = 0; y > peakY + taper; y -= 34 + r() * 40, k++) edge.push([W * (.1 + .07 * Math.sin(y / 260) + r() * .07), y]);
   const edgeAt = (y) => { for (let i = 0; i < edge.length - 1; i++) { const a = edge[i], b = edge[i + 1]; if (y <= a[1] && y >= b[1]) return a[0] + (b[0] - a[0]) * (a[1] - y) / (a[1] - b[1]); } return y > peakY + taper ? edge[0][0] : peak[0] - (peak[0] - edge[edge.length - 1][0]) * (y - peakY) / taper; };
   const rightAt = (y) => y < peakY + taper * .7 ? peak[0] + (W + 30 - peak[0]) * (y - peakY) / (taper * .7) : W + 30;
   const left = [...edge];
@@ -89,55 +89,91 @@ function drawWall() {
   el('polygon', { fill: rgb(tone(H * .6)), points: pts(outline) }, art);
   const slabs = el('g', { 'clip-path': 'url(#face)' }, art);
 
-  // the face is built from tiers of slabs: lit left plane, shaded right plane,
-  // a dark undercut under every tier, ink on every edge
-  let ty = peakY + 30;
-  while (ty < H) {
-    const th = 120 + r() * 110, y0 = ty, y1 = ty + th, mid = (y0 + y1) / 2;
-    const e = edgeAt(mid) - 40, R = rightAt(mid) + 10;
-    const n = Math.max(2, Math.round((R - e) / (110 + r() * 60)));
-    let xt = e, xb = e - 10 - r() * 20;
-    const base = tone(mid);
-    for (let i = 0; i < n; i++) {
-      const wt = (R - e) / n * (.75 + r() * .5), wb = wt * (.85 + r() * .35);
-      const x2t = i === n - 1 ? R : xt + wt, x2b = i === n - 1 ? R + 10 : xb + wb;
-      const j0 = (r() - .5) * 18, j1 = (r() - .5) * 18;
-      const lit = mix(base, LIGHT, .12 + r() * .1), dark = mix(base, INK, .26 + r() * .1);
-      const split = .55 + r() * .2;
-      const mt = xt + (x2t - xt) * split, mb = xb + (x2b - xb) * (split + .12);
-      el('polygon', { class: 'w-slab', fill: rgb(lit), points: pts([[xt, y0 + j0], [x2t, y0 + j1], [x2b, y1], [xb, y1]]) }, slabs);
-      el('polygon', { fill: rgb(dark), points: pts([[mt, y0 + (j0 + j1) / 2], [x2t, y0 + j1], [x2b, y1], [mb, y1]]) }, slabs);
-      el('polygon', { class: 'w-slab-edge', points: pts([[xt, y0 + j0], [x2t, y0 + j1], [x2b, y1], [xb, y1]]) }, slabs);
-      // a crack down the lit face now and then
-      if (r() < .35) { let cx = xt + (mt - xt) * (.3 + r() * .4), d = `M${f(cx)} ${f(y0 + 10)}`; for (let k = 1; k <= 3; k++) { cx += (r() - .5) * 14; d += ` L${f(cx)} ${f(y0 + 10 + (th - 20) * k / 3)}`; } el('path', { class: 'w-crack', d }, slabs); }
-      xt = x2t; xb = x2b;
+  // The face is a jittered mesh of rock facets. Each facet gets a height, and the
+  // fold between facets is shaded by a light from the upper left, posterised into
+  // flat comic tones. Buttresses run up the wall, strata tilt the slabs, ink only
+  // goes on the creases, and snow settles on faces that look upward near the top.
+  const CELL = Math.max(58, Math.min(80, W / 8));
+  const gx0 = -70, gy0 = peakY - 40;
+  const cols = Math.ceil((W + 140) / CELL) + 1, rows = Math.ceil((H + 60 - gy0) / CELL) + 1;
+  const ribW = W * (.2 + r() * .06), ribPh = r() * 6;
+  const height = (x, y) => {
+    const wob = 46 * Math.sin(y / 330 + ribPh) + 20 * Math.sin(y / 97);
+    const rib = 70 * Math.abs(Math.sin(((x + wob) / ribW) * Math.PI));      // buttresses and gullies
+    const strata = 34 * (((y + x * .22) / (150 + 40 * Math.sin(x / 260))) % 1); // tilted bedding
+    return rib + strata;
+  };
+  const P = [];
+  for (let j = 0; j < rows; j++) {
+    const row = [];
+    for (let i = 0; i < cols; i++) {
+      const edgeX = i === 0 || i === cols - 1, edgeY = j === 0 || j === rows - 1;
+      const x = gx0 + i * CELL + (edgeX ? 0 : (r() - .5) * CELL * .7);
+      const y = gy0 + j * CELL + (edgeY ? 0 : (r() - .5) * CELL * .7);
+      row.push([x, y, height(x, y) + (r() - .5) * 16]);
     }
-    el('polygon', { fill: rgb(mix(base, INK, .55)), points: pts([[e - 40, y1 - 2], [R + 40, y1 - 2], [R + 40, y1 + 7], [e - 40, y1 + 9]]) }, slabs);
-    // snow settles on the tier tops near the summit
-    if (y0 < peakY + vh * 1.1) {
-      for (let x = e; x < R; x += 50 + r() * 70) {
-        const w = 40 + r() * 70;
-        el('path', { class: 'w-snow', d: `M${f(x)} ${f(y0 + 2)} Q${f(x + w / 2)} ${f(y0 - 12 - r() * 6)} ${f(x + w)} ${f(y0 + 2)} L${f(x + w * .8)} ${f(y0 + 10)} L${f(x + w * .55)} ${f(y0 + 6)} L${f(x + w * .3)} ${f(y0 + 13)} Z` }, slabs);
-      }
-    }
-    ty = y1 + 8;
+    P.push(row);
   }
-  // summit cap
-  el('polygon', { class: 'w-snow', points: pts([peak, [peak[0] + W * .1, peakY + 64], [peak[0] + 34, peakY + 52], [peak[0] + 8, peakY + 82], [peak[0] - 26, peakY + 50], [peak[0] - W * .09, peakY + 60]]) }, art);
+  const L = (() => { const v = [-.55, -.62, .56], m = Math.hypot(...v); return v.map((c) => c / m); })();
+  const SNOW_LIT = [247, 243, 238], SNOW_SH = [190, 202, 220];
+  const edges = new Map();
+  const facet = (ia, ib, ic) => {
+    const [a, b, c] = [ia, ib, ic].map(([i, j]) => P[j][i]);
+    const u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], v = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    let n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    if (n[2] < 0) n = n.map((q) => -q);
+    const m = Math.hypot(...n); n = n.map((q) => q / m);
+    const lum = Math.max(0, n[0] * L[0] + n[1] * L[1] + n[2] * L[2]);
+    const s = Math.round(Math.min(1, Math.max(0, (lum - .45) / .5)) * 4) / 4;  // four flat tones
+    const cy = (a[1] + b[1] + c[1]) / 3, base = tone(cy);
+    const snowZone = 1 - (cy - peakY) / (vh * 1.6);
+    const cx = (a[0] + b[0] + c[0]) / 3;
+    const patch = Math.sin(cx / 85 + 2 * Math.sin(cy / 150)) * Math.cos(cy / 110 + cx / 310);   // smooth snowfields
+    const gully = 1 - Math.abs(Math.sin(((cx + 46 * Math.sin(cy / 330 + ribPh) + 20 * Math.sin(cy / 97)) / ribW) * Math.PI));
+    const snowy = snowZone > 0 && snowZone * 1.25 + patch * .35 + gully * .35 + (-n[1] > .1 ? .15 : -.2) > .85;
+    const col = snowy ? mix(SNOW_SH, SNOW_LIT, Math.min(1, s + .25)) : mix(mix(base, INK, .36), mix(base, LIGHT, .3), s);
+    el('polygon', { class: 'w-facet', fill: rgb(col), stroke: rgb(col), points: pts([a, b, c]) }, slabs);
+    for (const [p, q] of [[ia, ib], [ib, ic], [ic, ia]]) {
+      const k = [p, q].map(([i, j]) => j * cols + i).sort((x, y) => x - y).join('-');
+      const e = edges.get(k); const val = s + (snowy ? 2 : 0);
+      if (e) e.push(val); else edges.set(k, [val, p, q]);
+    }
+  };
+  for (let j = 0; j < rows - 1; j++) for (let i = 0; i < cols - 1; i++) {
+    if (r() < .5) { facet([i, j], [i + 1, j], [i + 1, j + 1]); facet([i, j], [i + 1, j + 1], [i, j + 1]); }
+    else { facet([i, j], [i + 1, j], [i, j + 1]); facet([i + 1, j], [i + 1, j + 1], [i, j + 1]); }
+  }
+  // ink on the folds: strong where the light changes a lot, fine where it changes a little
+  let strong = '', fine = '';
+  for (const [s1, p, q, s2] of edges.values()) {
+    if (s2 === undefined) continue;
+    const d = Math.abs(s1 - s2), [a, b] = [p, q].map(([i, j]) => P[j][i]);
+    const seg = `M${f(a[0])} ${f(a[1])}L${f(b[0])} ${f(b[1])}`;
+    if (d >= .75) strong += seg; else if (d >= .5) fine += seg;
+  }
+  el('path', { class: 'w-fold-fine', d: fine }, slabs);
+  el('path', { class: 'w-fold', d: strong }, slabs);
+  // a few long cracks that ignore the facets
+  for (let k = 0; k < Math.round(H / 420); k++) {
+    let cx = W * (.2 + r() * .7), cy = peakY + vh * .4 + r() * (H - peakY - vh * .4), d = `M${f(cx)} ${f(cy)}`;
+    const len = 4 + Math.floor(r() * 4);
+    for (let s = 0; s < len; s++) { cx += (r() - .5) * 26; cy += 22 + r() * 26; d += ` L${f(cx)} ${f(cy)}`; }
+    el('path', { class: 'w-crack', d }, slabs);
+  }
   el('polygon', { class: 'w-rock', fill: 'none', points: pts(outline) }, art);
 
   // base camp ground
   el('polygon', { class: 'w-ledge', fill: '#8A6A48', points: pts([[-W * .35, H + 40], [-W * .12, baseY + 40], [W * .1, baseY + 4], [W + 30, baseY - 6], [W + 30, H + 40]]) }, art);
   for (let k = 0; k < 7; k++) { const x = W * (.08 + r() * .86), yy = baseY + 18 + r() * 36, w = 14 + r() * 22; el('polygon', { class: 'w-stone', points: pts([[x, yy], [x + w * .4, yy - w * .45], [x + w, yy - w * .2], [x + w * .9, yy + 4], [x + w * .1, yy + 4]]) }, art); }
-  tent(W * .58, baseY - 2, 1.15); tent(W * .82, baseY - 4, .9);
+  tent(W * .36, baseY + 1, 1.9); tent(W * .74, baseY - 5, 1.5);
 
   // ledges at each camp: a proper shelf with its underside in shadow
   const camps = sections.slice(1, -1).map((sec) => atClimber(sec) + 10);
   for (const y of camps) {
-    const e = edgeAt(y), w = Math.min(W * .62, 250), c = tone(y);
+    const e = edgeAt(y), w = Math.min(W * .7, 300), c = tone(y);
     el('polygon', { class: 'w-ledge', fill: rgb(mix(c, INK, .5)), points: pts([[e - 46, y + 10], [e + w + 14, y + 10], [e + w * .55, y + 46], [e - 20, y + 34]]) }, art);
     el('polygon', { class: 'w-ledge', fill: rgb(mix(c, LIGHT, .25)), points: pts([[e - 50, y], [e + w, y - 3], [e + w + 14, y + 10], [e - 46, y + 12]]) }, art);
-    tent(e + w * .55, y, .8);
+    tent(e + w * .64, y, 1.5);
   }
 
   // the route: from base camp up to the peak, through the camp ledges
@@ -148,7 +184,7 @@ function drawWall() {
   while (y > peakY + 140) {
     y -= 130 + r() * 70;
     const next = stops.find((cy) => cy < route[route.length - 1][1] && cy >= y);
-    if (next) { const e = edgeAt(next); route.push([e + Math.min(W * .62, 250) * .2, next - 6]); y = next - 6; continue; }
+    if (next) { const e = edgeAt(next); route.push([e + Math.min(W * .7, 300) * .18, next - 6]); y = next - 6; continue; }
     if (y <= peakY + 140) break;
     const e = edgeAt(y); route.push([e + (W * .88 - e) * (.3 + r() * .5), y]);
   }
@@ -167,8 +203,14 @@ function drawWall() {
   el('path', { class: 'w-flag', d: `M${f(peak[0] + 15)} ${f(peakY - 90)} C${f(peak[0] + 40)} ${f(peakY - 98)} ${f(peak[0] + 52)} ${f(peakY - 80)} ${f(peak[0] + 76)} ${f(peakY - 88)} L${f(peak[0] + 76)} ${f(peakY - 56)} C${f(peak[0] + 52)} ${f(peakY - 48)} ${f(peak[0] + 40)} ${f(peakY - 66)} ${f(peak[0] + 15)} ${f(peakY - 58)} Z` }, art);
 
   function tent(x, gy, s) {
-    el('polygon', { class: 'w-tent', points: pts([[x - 30 * s, gy], [x, gy - 34 * s], [x + 30 * s, gy]]) }, art);
-    el('polygon', { class: 'w-tent-door', points: pts([[x - 7 * s, gy], [x, gy - 16 * s], [x + 7 * s, gy]]) }, art);
+    // a ridge tent seen from three quarters: lit front, shaded side, open door, guy lines
+    const t = el('g', { class: 'w-tent-g' }, art);
+    const fx = x - 10 * s, apex = [fx, gy - 34 * s], back = [x + 30 * s, gy - 30 * s];
+    el('path', { class: 'w-guy', d: `M${f(apex[0])} ${f(apex[1])} L${f(fx - 44 * s)} ${f(gy)} M${f(back[0])} ${f(back[1])} L${f(back[0] + 30 * s)} ${f(gy)}` }, t);
+    el('polygon', { class: 'w-tent-side', points: pts([apex, back, [x + 52 * s, gy], [fx + 26 * s, gy]]) }, t);
+    el('polygon', { class: 'w-tent', points: pts([[fx - 26 * s, gy], apex, [fx + 26 * s, gy]]) }, t);
+    el('polygon', { class: 'w-tent-door', points: pts([[fx - 10 * s, gy], [fx, gy - 22 * s], [fx + 10 * s, gy]]) }, t);
+    el('line', { class: 'w-tent-seam', x1: f(fx + 6 * s), y1: f(gy - 28 * s), x2: f(x + 40 * s), y2: f(gy - 6 * s) }, t);
   }
 }
 

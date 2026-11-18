@@ -107,6 +107,12 @@ html:not(.js) .wall { display: none; }
 .w-piton { fill: #C9CCD2; stroke: var(--ink); stroke-width: 2; }
 .w-ledge { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
 .w-tent { fill: var(--ochre); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.w-tent-side { fill: #B9772A; stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
+.w-tent-seam { stroke: rgba(28, 20, 16, .45); stroke-width: 1.6; stroke-linecap: round; }
+.w-guy { fill: none; stroke: var(--ink); stroke-width: 1.2; opacity: .7; }
+.w-facet { stroke-width: .8; stroke-linejoin: round; }
+.w-fold { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.w-fold-fine { fill: none; stroke: rgba(28, 20, 16, .35); stroke-width: 1.2; stroke-linecap: round; }
 .w-tent-door { fill: var(--ink); }
 .w-flag-pole { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
 .w-flag { fill: var(--rust); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
@@ -170,7 +176,7 @@ html:not(.js) .wall { display: none; }
 .summit__links a { color: var(--paper); font-weight: 600; font-size: 18px; text-decoration-color: rgba(244, 232, 211, .45); }
 .summit__links a:hover { text-decoration-color: var(--paper); }
 .summit__links a::after { content: " ↗"; font-weight: 400; }
-.footer { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 22px; display: flex; justify-content: space-between; gap: 12px; color: var(--paper); font-size: 14px; }
+.footer { position: absolute; left: var(--gutter); right: calc(var(--wall-w) + var(--gutter)); bottom: 22px; display: flex; justify-content: space-between; gap: 12px; color: var(--paper); font-size: 14px; }
 .footer a { color: var(--paper); font-weight: 600; }
 
 @media (max-width: 760px) {
