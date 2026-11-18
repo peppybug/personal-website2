@@ -75,8 +75,9 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 2px
 
 /* ---------- The climb ---------- */
 .climb { position: relative; }
-.wall { position: absolute; top: 0; bottom: 0; right: 0; width: var(--wall-w); pointer-events: none; }
-.wall__art { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.wall { position: fixed; top: 0; right: 0; height: 100vh; width: var(--wall-w); pointer-events: none; z-index: 1; overflow: hidden; }
+.wall__art { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; overflow: visible; will-change: transform; }
+html:not(.js) .wall { display: none; }
 .climber { position: fixed; top: 0; left: 0; width: 64px; height: 98px; z-index: 5; transform: translate3d(var(--cx, -200px), var(--cy, 0px), 0); visibility: hidden; }
 .js .climber.is-ready { visibility: visible; }
 .climber path, .climber circle { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -178,9 +179,7 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 2px
 }
 @media (prefers-reduced-motion: reduce) { .climber__body, .btn, .roles li { transition: none; } }
 
-/* The climb runs upward: Base Camp sits at the foot of the page */
-.js .climb { display: flex; flex-direction: column-reverse; }
-.scroll-cue::before { content: "↑"; border: 0; width: auto; font-size: 18px; }
+.scroll-cue::before { content: "↓"; border: 0; width: auto; font-size: 18px; }
 html:not(.js) .scroll-cue { display: none; }
 
 /* Climbing permit: Olivier's photo pinned at Base Camp */
@@ -196,6 +195,6 @@ html:not(.js) .scroll-cue { display: none; }
 @media (max-width: 1180px) and (min-width: 761px) { .permit { width: 260px; left: calc(100% - var(--wall-w) - 150px); } }
 @media (max-width: 760px) {
   .pitch--base { flex-direction: column; align-items: flex-start; justify-content: center; gap: 36px; }
-  .permit { order: -1; position: relative; left: auto; top: auto; width: min(58vw, 220px); margin: 10px 0 0 6px; transform: rotate(2deg); }
+  .permit { position: relative; left: auto; top: auto; width: min(58vw, 220px); margin: 0 0 56px 6px; transform: rotate(2deg); }
   .permit__rows div { grid-template-columns: 1fr; gap: 0; }
 }

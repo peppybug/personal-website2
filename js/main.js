@@ -34,13 +34,12 @@ function drawRange(svg, base, amp, n, seed, cls, snow) {
 drawRange(document.querySelector('.sky__range--far'), 260, 190, 12, 11, 'r-far', true);
 drawRange(document.querySelector('.sky__range--near'), 330, 140, 9, 29, 'r-near', false);
 
-/* ---------- The climb runs upward: start at the foot of the wall ---------- */
+/* ---------- Scroll down, climb up: the wall slides down past the climber ---------- */
 const climb = document.querySelector('.climb');
 const sections = [...document.querySelectorAll('section[data-alt]')];
-let stickBottom = !location.hash;
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-const toBottom = () => { if (stickBottom) scrollTo(0, root.scrollHeight); };
-['wheel', 'touchstart', 'keydown', 'mousedown'].forEach((t) => addEventListener(t, () => { stickBottom = false; }, { once: true, passive: true }));
+const CLIMBER_Y = .62;          // the climber holds this height on screen
+let WH = 0, maxScroll = 1;      // wall height in px, page scroll range
+const wallShift = (s) => -(WH - innerHeight) * (1 - s / maxScroll);   // wall y offset at scroll s
 
 /* ---------- The wall ---------- */
 const wall = document.querySelector('.wall');
@@ -49,15 +48,20 @@ const climber = document.querySelector('.climber');
 let route = [], peak = [0, 0], baseY = 0, wallLeft = 0;
 
 function drawWall() {
-  const W = wall.clientWidth, H = climb.offsetHeight, vh = innerHeight;
-  wallLeft = wall.getBoundingClientRect().left + scrollX;
+  const W = wall.clientWidth, vh = innerHeight;
+  maxScroll = Math.max(1, root.scrollHeight - vh);
+  WH = Math.round(vh + maxScroll * .55);
+  const H = WH;
+  art.style.height = H + 'px';
+  wallLeft = wall.getBoundingClientRect().left;
   art.setAttribute('viewBox', `0 0 ${W} ${H}`);
   art.replaceChildren();
   const r = rng(7);
-  const summit = document.getElementById('summit'), base = document.getElementById('base');
-  const peakY = summit.offsetTop + summit.offsetHeight * .64;
+  const peakY = vh * CLIMBER_Y - 4;                       // reached exactly at the bottom of the page
   peak = [W * .52, peakY];
-  baseY = base.offsetTop + base.offsetHeight - Math.min(90, vh * .1);
+  baseY = H - Math.min(90, vh * .1);
+  // the wall height that sits at the climber when a section is centred on screen
+  const atClimber = (sec) => { const sc = Math.min(maxScroll, Math.max(0, sec.offsetTop + sec.offsetHeight / 2 - vh / 2)); return vh * CLIMBER_Y - wallShift(sc); };
   const taper = vh * .9;
 
   // rock colour by height: warm sandstone low, granite higher, snow at the top
@@ -103,7 +107,7 @@ function drawWall() {
   tent(W * .58, baseY - 2, 1.15); tent(W * .82, baseY - 4, .9);
 
   // ledges at each camp
-  const camps = sections.slice(1, -1).map((s) => s.offsetTop + s.offsetHeight * .6);
+  const camps = sections.slice(1, -1).map((sec) => atClimber(sec) + 10);
   for (const y of camps) {
     const e = edgeAt(y), w = Math.min(W * .62, 240);
     el('polygon', { class: 'w-ledge', fill: 'url(#rock)', points: pts([[e - 40, y], [e + w, y - 2], [e + w + 10, y + 14], [e + w * .4, y + 38], [e - 26, y + 24]]) }, art);
@@ -112,8 +116,9 @@ function drawWall() {
   }
 
   // the route: from base camp up to the peak, through the camp ledges
-  route = [[W * .5, baseY - 40]];
-  let y = baseY - 40;
+  const startY = Math.min(baseY - 40, vh * CLIMBER_Y - wallShift(0) + 6);
+  route = [[W * .5, startY]];
+  let y = startY;
   const stops = [...camps].sort((a, b) => b - a);
   while (y > peakY + 140) {
     y -= 120 + r() * 70;
@@ -163,13 +168,13 @@ let anchors = [];
 function measure() {
   const vh = innerHeight, max = Math.max(1, root.scrollHeight - vh);
   anchors = sections.map((s) => ({ id: s.id, alt: +s.dataset.alt, y: Math.min(max, Math.max(0, s.offsetTop + s.offsetHeight / 2 - vh / 2)) }))
-    .sort((a, b) => b.y - a.y);           // from the foot of the page (base) up to the summit
+    .sort((a, b) => a.y - b.y);           // base camp at the top of the page, summit at the bottom
 }
 function altitudeAt(y) {
-  if (y >= anchors[0].y) return BASE;
+  if (y <= anchors[0].y) return BASE;
   for (let i = 0; i < anchors.length - 1; i++) {
     const a = anchors[i], b = anchors[i + 1];
-    if (y >= b.y) return a.alt + (b.alt - a.alt) * (a.y - y) / Math.max(1, a.y - b.y);
+    if (y <= b.y) return a.alt + (b.alt - a.alt) * (y - a.y) / Math.max(1, b.y - a.y);
   }
   return TOP;
 }
@@ -191,18 +196,20 @@ function frame() {
     root.style.setProperty('--sun-y', (Math.sin(Math.PI * p) * vh * .25).toFixed(1) + 'px');
   }
   if (altOut) altOut.textContent = Math.round(alt).toLocaleString('en-US');
-  let here = anchors[0]?.id; for (const a of anchors) if (y <= a.y + 2) here = a.id;
+  let here = anchors[0]?.id; for (const a of anchors) if (y >= a.y - vh * .3) here = a.id;
   navLinks.forEach((l) => { if (l.getAttribute('href') === '#' + here) l.setAttribute('aria-current', 'location'); else l.removeAttribute('aria-current'); });
 
-  // the climber holds a fixed height on screen while the wall slides past
+  // the wall slides down as you scroll; the climber holds a fixed height on screen
+  const shift = wallShift(Math.min(maxScroll, Math.max(0, y)));
+  art.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
   if (route.length) {
     const cw = climber.clientWidth, ch = climber.clientHeight;
-    const docY = y + vh * .62 - climb.offsetTop;
+    const docY = vh * CLIMBER_Y - shift;                     // wall height at the climber
     let cx, cy, top = false;
-    if (docY >= route[0][1]) { cx = route[0][0]; cy = route[0][1] - y + climb.offsetTop; }          // waiting at base camp
-    else if (docY <= peak[1] + 6) { cx = peak[0] - 6; cy = peak[1] - y + climb.offsetTop - ch * .42; top = true; }  // on the summit
-    else { cx = routeXAt(docY); cy = vh * .62; }
-    climber.style.setProperty('--cx', (wallLeft - scrollX + cx - cw / 2).toFixed(1) + 'px');
+    if (docY >= route[0][1]) { cx = route[0][0]; cy = route[0][1] + shift; }                       // at the foot of the route
+    else if (docY <= peak[1] + 6) { cx = peak[0] - 6; cy = peak[1] + shift - ch * .42; top = true; }  // on the summit
+    else { cx = routeXAt(docY); cy = vh * CLIMBER_Y; }
+    climber.style.setProperty('--cx', (wallLeft + cx - cw / 2).toFixed(1) + 'px');
     climber.style.setProperty('--cy', (cy - ch / 2).toFixed(1) + 'px');
     climber.classList.toggle('top', top);
     climber.classList.toggle('pose-b', !reduce && !top && Math.floor(docY / 64) % 2 === 1);
@@ -210,7 +217,7 @@ function frame() {
   }
 }
 const queue = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
-function layout() { drawWall(); measure(); toBottom(); queue(); }
+function layout() { drawWall(); measure(); queue(); }
 addEventListener('scroll', queue, { passive: true });
 let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 120); });
 addEventListener('load', layout);
