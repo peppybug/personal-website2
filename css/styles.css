@@ -78,17 +78,32 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 2px
 .wall { position: fixed; top: 0; right: 0; height: 100vh; width: var(--wall-w); pointer-events: none; z-index: 1; overflow: hidden; }
 .wall__art { position: absolute; top: 0; left: 0; width: 100%; height: 100vh; overflow: visible; will-change: transform; }
 html:not(.js) .wall { display: none; }
-.climber { position: fixed; top: 0; left: 0; width: 64px; height: 98px; z-index: 5; transform: translate3d(var(--cx, -200px), var(--cy, 0px), 0); visibility: hidden; }
+.climber { position: fixed; top: 0; left: 0; width: 70px; height: 114px; z-index: 5; transform: translate3d(var(--cx, -200px), var(--cy, 0px), 0); visibility: hidden; }
 .js .climber.is-ready { visibility: visible; }
-.climber path, .climber circle { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.climber__pack { fill: var(--rust); } .climber__torso { fill: var(--teal); } .climber__head { fill: #F0C9A0; } .climber__helmet { fill: var(--ochre); }
-.climber__limb { fill: none; stroke-width: 4.2 !important; }
-.climber__rope path { fill: none; stroke: var(--rust) !important; stroke-width: 3 !important; }
+.climber * { stroke-linecap: round; stroke-linejoin: round; }
+.climber .cl-o { fill: none; stroke: var(--ink); stroke-width: 7.6; }
+.cl-sleeve { fill: none; stroke: var(--teal); stroke-width: 4.6; }
+.cl-pants { fill: none; stroke: #3F4A5E; stroke-width: 4.8; }
+.cl-boot { fill: #2B2320; stroke: var(--ink); stroke-width: 1.6; }
+.cl-glove { fill: #3A3330; stroke: var(--ink); stroke-width: 1.8; }
+.cl-jacket { fill: var(--teal); stroke: var(--ink); stroke-width: 2.2; }
+.cl-jacket-sh { fill: rgba(28, 20, 16, .22); }
+.cl-harness { fill: #2E2A2B; stroke: var(--ink); stroke-width: 1.6; }
+.cl-gear { fill: none; stroke: #D7D9DE; stroke-width: 1.8; }
+.cl-chalk { fill: #ECE6DA; stroke: var(--ink); stroke-width: 1.6; }
+.cl-strap { fill: none; stroke: #2E2A2B; stroke-width: 2.4; }
+.cl-pack { fill: var(--rust); stroke: var(--ink); stroke-width: 2.2; }
+.cl-lid { fill: #9C3E22; stroke: var(--ink); stroke-width: 2; }
+.cl-seam { fill: none; stroke: rgba(28, 20, 16, .5); stroke-width: 1.4; }
+.cl-skin { fill: #E8B98F; stroke: var(--ink); stroke-width: 1.6; }
+.cl-hair { fill: #5A3A26; stroke: var(--ink); stroke-width: 1.8; }
+.cl-helmet { fill: #F08A24; stroke: var(--ink); stroke-width: 2.2; }
+.cl-helmet-line { fill: none; stroke: rgba(28, 20, 16, .45); stroke-width: 1.2; }
+.cl-rope { fill: none; stroke: var(--rust); stroke-width: 3; }
 .climber__body { transform-origin: 0 0; transition: transform .25s var(--ease); }
 .climber.pose-b .climber__body { transform: scaleX(-1); }
-.climber.top .climber__arm-r { d: path("M8 -12 L14 -26 L16 -38"); }
-.climber.top .climber__arm-l { d: path("M-8 -12 L-14 -26 L-16 -38"); }
-.climber.top .climber__rope { display: none; }
+.climber .cl-top, .climber.top .cl-climb { display: none; }
+.climber.top .cl-top { display: inline; }
 
 /* wall art classes (drawn in JS) */
 .w-rock { stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; }
@@ -187,7 +202,7 @@ html:not(.js) .wall { display: none; }
   .page { margin-right: 12vw; }
   .films { grid-template-columns: 1fr; }
   .facts div { grid-template-columns: 1fr; gap: 2px; }
-  .climber { width: 48px; height: 74px; }
+  .climber { width: 52px; height: 85px; }
   .topbar__home { font-size: 18px; }
   .pitch--summit .pitch__copy { max-width: 100%; }
 }

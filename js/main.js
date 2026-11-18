@@ -276,7 +276,7 @@ function frame() {
     const docY = vh * CLIMBER_Y - shift;                     // wall height at the climber
     let cx, cy, top = false;
     if (docY >= route[0][1]) { cx = route[0][0]; cy = route[0][1] + shift; }                       // at the foot of the route
-    else if (docY <= peak[1] + 6) { cx = peak[0] - 6; cy = peak[1] + shift - ch * .42; top = true; }  // on the summit
+    else if (docY <= peak[1] + 6) { cx = peak[0] - 6; cy = peak[1] + shift - ch * .35; top = true; }  // on the summit
     else { cx = routeXAt(docY); cy = vh * CLIMBER_Y; }
     climber.style.setProperty('--cx', (wallLeft + cx - cw / 2).toFixed(1) + 'px');
     climber.style.setProperty('--cy', (cy - ch / 2).toFixed(1) + 'px');
