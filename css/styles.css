@@ -158,7 +158,7 @@ a { color: inherit; text-underline-offset: .22em; text-decoration-thickness: 2px
 /* summit */
 .pitch--summit { min-height: 100svh; align-items: flex-start; padding-top: 160px; }
 .summit { color: var(--paper); }
-.summit .pitch__camp { color: var(--sky3); }
+.summit .pitch__camp { color: #F7C9A8; }
 .summit__title { font: 900 clamp(64px, 9vw, 150px)/.86 var(--display); text-transform: uppercase; text-wrap: balance; text-shadow: 0 5px 0 var(--ink); }
 .summit__links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .footer { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 22px; display: flex; justify-content: space-between; gap: 12px; color: var(--paper); font-size: 14px; }

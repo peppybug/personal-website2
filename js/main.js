@@ -145,7 +145,7 @@ const KEYS = [
   { at: 0, c: { sky1: '#7FB3C8', sky2: '#F2D3A4', sky3: '#EBA36C', far: '#9DA8BE', near: '#6E7891', cloud: '#FFF6E8', sun: '#FFE2A6' } },
   { at: .45, c: { sky1: '#3E79B0', sky2: '#9CC4E0', sky3: '#DCEAF1', far: '#B4C2D6', near: '#7F8FA9', cloud: '#FFFFFF', sun: '#FFF4D6' } },
   { at: .8, c: { sky1: '#4C3C8C', sky2: '#E2788A', sky3: '#F7B267', far: '#8A6E9A', near: '#5F4C7A', cloud: '#FFD7C2', sun: '#FFC27A' } },
-  { at: 1, c: { sky1: '#0F0C2E', sky2: '#3B2E74', sky3: '#C2597A', far: '#3E3466', near: '#2A2350', cloud: '#B9A7D6', sun: '#FFB36B' } },
+  { at: 1, c: { sky1: '#0F0C2E', sky2: '#3B2E74', sky3: '#8A3F66', far: '#3E3466', near: '#2A2350', cloud: '#B9A7D6', sun: '#FFB36B' } },
 ];
 const hex = (s) => [1, 3, 5].map((i) => parseInt(s.slice(i, i + 2), 16));
 const PK = KEYS.map((k) => ({ at: k.at, c: Object.fromEntries(Object.entries(k.c).map(([n, v]) => [n, hex(v)])) }));
