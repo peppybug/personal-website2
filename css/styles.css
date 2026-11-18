@@ -192,7 +192,7 @@ html:not(.js) .scroll-cue { display: none; }
 .permit__rows div { display: grid; grid-template-columns: 96px 1fr; gap: 8px; border-top: 1.5px dashed rgba(28, 20, 16, .35); padding-top: 7px; font-size: 14px; }
 .permit__rows dt { font: 800 13px var(--display); text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); padding-top: 1px; }
 .permit__rows dd { font-weight: 600; }
-.permit__stamp { position: absolute; right: -20px; top: 42%; width: 98px; height: 98px; border-radius: 50%; border: 3px double var(--rust); color: var(--rust); display: grid; place-items: center; text-align: center; font: 800 13px/1.1 var(--display); letter-spacing: .12em; text-transform: uppercase; transform: rotate(-16deg); background: rgba(244, 232, 211, .65); }
+.permit__stamp { position: absolute; right: -20px; top: 42%; width: 98px; height: 98px; border-radius: 50%; border: 3px double #A33E20; color: #A33E20; display: grid; place-items: center; text-align: center; font: 800 13px/1.1 var(--display); letter-spacing: .12em; text-transform: uppercase; transform: rotate(-16deg); background: rgba(244, 232, 211, .65); }
 @media (max-width: 1180px) and (min-width: 761px) { .permit { width: 260px; left: calc(100% - var(--wall-w) - 150px); } }
 @media (max-width: 760px) {
   .pitch--base { flex-direction: column; align-items: flex-start; justify-content: center; gap: 36px; }
