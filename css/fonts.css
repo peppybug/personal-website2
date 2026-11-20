@@ -1,4 +1,5 @@
-/* Self-hosted: Big Shoulders Display and Libre Franklin (SIL Open Font License), latin subset */
-@font-face { font-family: 'Big Shoulders Display'; font-style: normal; font-weight: 700 900; font-display: swap; src: url('../assets/fonts/big-shoulders-display-normal-var.woff2') format('woff2'); }
-@font-face { font-family: 'Libre Franklin'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('../assets/fonts/libre-franklin-normal-var.woff2') format('woff2'); }
-@font-face { font-family: 'Libre Franklin'; font-style: italic; font-weight: 400; font-display: swap; src: url('../assets/fonts/libre-franklin-italic-var.woff2') format('woff2'); }
+/* Self-hosted fonts. Geist (SIL OFL, Vercel) for everything, Newsreader (SIL OFL) for
+   the research card. */
+@font-face { font-family: "Geist"; src: url("../assets/fonts/geist-var.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("../assets/fonts/newsreader-var.woff2") format("woff2"); font-weight: 200 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("../assets/fonts/newsreader-italic-var.woff2") format("woff2"); font-weight: 200 800; font-style: italic; font-display: swap; }
