@@ -70,8 +70,8 @@ cite { font-style: italic; }
 .hero__title .tile:nth-of-type(1) { --tilt: -4deg; }
 .hero__title .tile:nth-of-type(3) { --tilt: 3deg; }
 .hero__title .tile:hover { transform: rotate(0) scale(1.06); }
-.tile--discord { display: inline-grid; place-items: center; background: #5865F2; }
-.tile--discord img { width: 58%; height: auto; }
+.tile--kw { display: inline-grid; place-items: center; background: #0036D5; }
+.tile--kw img { width: 56%; height: auto; }
 .hero__sub { max-width: 40ch; margin: clamp(28px, 4vh, 40px) auto 0; color: var(--ink-2); font-size: clamp(18px, 1.7vw, 22px); line-height: 1.45; letter-spacing: -.01em; text-wrap: balance; }
 .hero__actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: clamp(32px, 5vh, 52px); }
 
