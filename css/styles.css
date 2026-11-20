@@ -13,7 +13,7 @@
   --paper: #F4EFE6;
   --paper-ink: #2A241D;
   --paper-2: #6C6156;
-  --clay: #B5583A;
+  --clay: #9A4529;
   --text: "Geist", ui-sans-serif, system-ui, sans-serif;
   --serif: "Newsreader", Georgia, serif;
   --gutter: clamp(16px, 4vw, 48px);
@@ -84,7 +84,7 @@ cite { font-style: italic; }
 .shot--tall { aspect-ratio: 3 / 4; }
 .shot--square { aspect-ratio: 1; }
 .shot img { width: 100%; height: 100%; object-fit: cover; }
-.shot__tag { position: absolute; left: 12px; bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .92); color: var(--ink); font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
+.shot__tag { position: absolute; left: 12px; bottom: 12px; padding: 7px 14px; border-radius: 999px; background: rgba(255, 255, 255, .92); color: var(--ink); font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
 @keyframes drift { to { transform: translateX(-50%); } }
 
 /* ---------- Grok ---------- */

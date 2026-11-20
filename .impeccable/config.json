@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-20T16:18:44.495Z",
+        "reason": "Chosen to match Olivier's references (x.ai, Mobbin); the display voice comes from the inline app icons"
+      }
+    ]
+  }
+}
