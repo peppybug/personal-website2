@@ -98,6 +98,15 @@ cite { font-style: italic; }
 .grok__art { justify-self: center; width: min(100%, 380px); }
 .grok__art img { width: 100%; border-radius: 22%; box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .08); transform: rotate(-5deg); transition: transform .6s var(--ease); }
 .grok:hover .grok__art img { transform: rotate(-1deg) scale(1.02); }
+/* the Keywords card: same build, in Keywords blue, with their artwork */
+.grok--kw { margin-top: clamp(16px, 2vw, 24px); background: #0036D5; }
+.grok--kw::before { background: radial-gradient(closest-side, rgba(150, 190, 255, .35), rgba(150, 190, 255, 0)); left: -15%; right: auto; top: 20%; }
+.grok--kw .grok__copy > p { color: #DCE3FB; }
+.grok--kw .grok__meta { border-top-color: rgba(255, 255, 255, .22); }
+.grok--kw .grok__meta dt { color: #C7D2FA; }
+.grok__art--wide { width: min(100%, 520px); }
+.grok__art--wide img { border-radius: var(--r-md); transform: rotate(2.5deg); box-shadow: 0 40px 80px -30px rgba(0, 10, 60, .8), 0 0 0 1px rgba(255, 255, 255, .14); }
+.grok--kw:hover .grok__art img { transform: rotate(.5deg) scale(1.02); }
 
 /* ---------- Content blocks ---------- */
 .block { max-width: calc(var(--max) + 2 * var(--gutter)); margin: 0 auto; padding: clamp(80px, 11vw, 140px) var(--gutter) 0; }
@@ -109,7 +118,8 @@ cite { font-style: italic; }
 .roles__icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 8px -3px rgba(0, 0, 0, .3); }
 .roles__icon > img { width: 100%; height: 100%; object-fit: cover; }
 .roles__icon--ink { background: var(--ink); }
-.roles__icon--ink > img, .roles__icon--discord > img { width: 56%; height: auto; }
+.roles__icon--kw { background: #0036D5; }
+.roles__icon--ink > img, .roles__icon--kw > img, .roles__icon--discord > img { width: 56%; height: auto; }
 .roles__icon--discord { background: #5865F2; }
 .roles__name { font-size: clamp(20px, 2vw, 26px); font-weight: 650; letter-spacing: -.025em; }
 .roles__role { color: var(--ink-2); font-size: 17px; }
@@ -131,8 +141,21 @@ cite { font-style: italic; }
 .paper__facts dt { color: var(--clay); font-size: 15px; font-weight: 600; }
 .paper__facts dd { margin: 6px 0 0; line-height: 1.55; }
 
+.projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); margin: 40px 0 0; padding: 0; list-style: none; }
+.project__shot { display: block; aspect-ratio: 16 / 10; padding: 14px 14px 0; background: var(--soft); border-radius: var(--r-md); overflow: hidden; }
+.project__shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 10px 10px 0 0; box-shadow: 0 8px 24px -10px rgba(0, 0, 0, .3); transition: transform .6s var(--ease); }
+.project:hover .project__shot img { transform: translateY(-4px); }
+.project__shot--soon { display: grid; place-items: center; padding: 0; }
+.project__shot--soon span { font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -.04em; color: #B4B4AF; }
+.project__name { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
+.project__name a { text-decoration: none; }
+.project__name a:hover { text-decoration: underline; }
+.project p { margin: 6px 0 0; color: var(--ink-2); }
+.project .project__url { margin-top: 10px; color: var(--ink); font-size: 15px; font-weight: 500; }
+.project__tag { padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--ink-2); font-size: 13px; font-weight: 600; letter-spacing: 0; }
+
 .travel { margin-top: 40px; }
-.map { margin: 0; padding: clamp(20px, 4vw, 56px); background: var(--night); border-radius: var(--r-lg); }
+.map { margin: 0; padding: clamp(20px, 4vw, 56px); background: var(--soft); border-radius: var(--r-lg); }
 .map img { width: 100%; }
 .countries { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; padding: 0; list-style: none; }
 .countries li { padding: 8px 14px; border-radius: 999px; background: var(--soft); font-size: 15px; font-weight: 500; }
@@ -149,7 +172,9 @@ cite { font-style: italic; }
 @media (max-width: 900px) {
   .grok { grid-template-columns: 1fr; }
   .grok__art { width: min(70%, 300px); order: -1; justify-self: start; }
+  .grok__art--wide { width: 100%; }
   .films { grid-template-columns: 1fr; }
+  .projects { grid-template-columns: 1fr; }
   .paper__facts { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
