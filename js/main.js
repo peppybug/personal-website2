@@ -29,7 +29,7 @@ if (!still) {
   // split a heading into words (and icon tiles) so each can move on its own
   const split = (el) => {
     let i = 0; const words = [];
-    for (const node of [...el.childNodes]) {
+    const walk = (parent) => { for (const node of [...parent.childNodes]) {
       if (node.nodeType === 3) {
         const frag = document.createDocumentFragment();
         node.textContent.split(/( )/).forEach((part) => {
@@ -37,8 +37,10 @@ if (!still) {
           const w = document.createElement('span'); w.className = 'w'; w.textContent = part; w.style.setProperty('--i', i++); words.push(w); frag.append(w);
         });
         node.replaceWith(frag);
-      } else if (!node.classList.contains('sr-only')) { node.classList.add('w'); node.style.setProperty('--i', i++); words.push(node); }
-    }
+      } else if (node.classList.contains('line')) { walk(node); }
+      else if (!node.classList.contains('sr-only')) { node.classList.add('w'); node.style.setProperty('--i', i++); words.push(node); }
+    } };
+    walk(el);
     el.classList.add('split');
     return words;
   };
