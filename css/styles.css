@@ -206,6 +206,7 @@ cite { font-style: italic; }
   /* the hero arrives on load: words blur and rise, icons spring in */
   .js .hero__title:not(.split) { opacity: 0; animation: show 0s 1.2s forwards; }
   .hero__title .w { display: inline-block; animation: rise 1s var(--ease) backwards; animation-delay: calc(var(--i) * 60ms + 80ms); }
+  .hero__title .tile--kw.w { display: inline-grid; }
   .hero__title .tile.w { animation: pop .9s cubic-bezier(.34, 1.56, .64, 1) backwards; animation-delay: calc(var(--i) * 60ms + 200ms); }
   .js .hero__sub, .js .hero__actions { animation: rise .9s var(--ease) backwards; }
   .js .hero__sub { animation-delay: .75s; }
